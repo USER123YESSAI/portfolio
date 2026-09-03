@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/* ========================================
+   DARK THEME (default)
+   ======================================== */
+:root,
+[data-theme="dark"] {
+  --background: #0b1121;
+  --bg-subtle: #111b33;
+  --foreground: #f8fafc;
+  --foreground-muted: #cbd5e1;
+  --card: #152238;
+  --card-hover: #1e304f;
+  --border: #2a3b5c;
+  --border-subtle: #1c2a44;
+  --primary: #0ea5e9;
+  --primary-hover: #38bdf8;
+  --accent: #f59e0b;
+  --accent-text: #fbbf24;
+  --label-color: #38bdf8;
+  --heading-color: #ffffff;
+  --body-text: #e2e8f0;
+  --icon-bg: #152238;
+  --icon-color: #38bdf8;
+  --badge-primary: #8b5cf6;
+  --badge-secondary: #0ea5e9;
+  --progress-track: #0f1a2e;
+  --progress-fill-start: #0ea5e9;
+  --progress-fill-end: #38bdf8;
+  --nav-bg: rgba(11, 17, 33, 0.92);
+  --nav-border: #1e293b;
+  --nav-text: #cbd5e1;
+  --nav-text-active: #ffffff;
+  --logo-dot: #38bdf8;
+  --btn-primary-bg: #0ea5e9;
+  --btn-primary-hover: #0284c7;
+  --btn-secondary-border: #64748b;
+  --btn-secondary-text: #f8fafc;
+  --scrollbar-track: #0b1121;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+  --bg-gradient-1: rgba(14, 165, 233, 0.08);
+  --bg-gradient-2: rgba(245, 158, 11, 0.06);
+}
+
+/* ========================================
+   LIGHT THEME — matches reference images:
+   light blue-gray gradient bg, navy text,
+   white cards, cyan accents, orange subtitle
+   ======================================== */
+[data-theme="light"] {
+  --background: #e8f0f7;
+  --bg-subtle: #f0f6fb;
+  --foreground: #0f172a;
+  --foreground-muted: #475569;
+  --card: #ffffff;
+  --card-hover: #f8fafc;
+  --border: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --primary: #0ea5e9;
+  --primary-hover: #0284c7;
+  --accent: #f59e0b;
+  --accent-text: #f59e0b;
+  --label-color: #0ea5e9;
+  --heading-color: #0f172a;
+  --body-text: #475569;
+  --icon-bg: #f0f6fb;
+  --icon-color: #0ea5e9;
+  --badge-primary: #8b5cf6;
+  --badge-secondary: #0ea5e9;
+  --progress-track: #e2e8f0;
+  --progress-fill-start: #0ea5e9;
+  --progress-fill-end: #3b82f6;
+  --nav-bg: rgba(232, 240, 247, 0.92);
+  --nav-border: #e2e8f0;
+  --nav-text: #475569;
+  --nav-text-active: #0f172a;
+  --logo-dot: #0ea5e9;
+  --btn-primary-bg: #0ea5e9;
+  --btn-primary-hover: #0284c7;
+  --btn-secondary-border: #cbd5e1;
+  --btn-secondary-text: #334155;
+  --scrollbar-track: #e8f0f7;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+  --bg-gradient-1: rgba(14, 165, 233, 0.08);
+  --bg-gradient-2: rgba(99, 179, 237, 0.06);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-serif);
+}
+
+/* scroll-behavior uniquement sur html (pas sur tous les éléments) */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  background-image: radial-gradient(circle at 15% 50%, var(--bg-gradient-1), transparent 25%),
+                    radial-gradient(circle at 85% 30%, var(--bg-gradient-2), transparent 25%);
+}
+
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+}
+
+.font-serif-custom {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #0ea5e9, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-padding {
+  @apply px-4 sm:px-6 lg:px-12 py-16 sm:py-20;
+}
+
+.container-custom {
+  @apply max-w-7xl mx-auto;
+}
+
+/* Custom Scrollbar — utilise les CSS variables pour respecter le thème actif */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Lien de contact : hover sans JS event handler */
+.contact-link:hover {
+  color: var(--primary) !important;
+}
+
+/* Liens de navigation : survol lumineux */
+nav a:hover {
+  color: var(--nav-text-active) !important;
+}
