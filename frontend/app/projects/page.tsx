@@ -1,6 +1,7 @@
 import PublicLayout from "@/components/layout/PublicLayout";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import { getProjects, getSettings } from "@/lib/api";
+import { DEFAULT_SETTINGS, DEFAULT_PROJECTS } from "@/lib/defaults";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,11 +13,17 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function ProjectsPage() {
-  let settings = {};
-  let projects = [];
+  let settings = DEFAULT_SETTINGS;
+  let projects = DEFAULT_PROJECTS;
 
   try {
-    [settings, projects] = await Promise.all([getSettings(), getProjects()]);
+    const [fetchedSettings, fetchedProjects] = await Promise.all([getSettings(), getProjects()]);
+    if (fetchedSettings && Object.keys(fetchedSettings).length > 0) {
+      settings = { ...DEFAULT_SETTINGS, ...fetchedSettings };
+    }
+    if (fetchedProjects && fetchedProjects.length > 0) {
+      projects = fetchedProjects;
+    }
   } catch {
     // API unavailable
   }

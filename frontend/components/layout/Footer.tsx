@@ -8,7 +8,9 @@ interface FooterProps {
 }
 
 export default function Footer({ settings }: FooterProps) {
-  const social = settings?.social_links;
+  const email = settings?.email || "nanadoumadjiyessain@gmail.com";
+  const github = settings?.social_links?.github || "https://github.com/YessainDev";
+  const linkedin = settings?.social_links?.linkedin || "https://linkedin.com/in/yessain";
 
   return (
     <footer className="border-t transition-colors duration-300" style={{ borderColor: "var(--nav-border)", backgroundColor: "var(--background)" }}>
@@ -37,16 +39,14 @@ export default function Footer({ settings }: FooterProps) {
               Me contacter
               <ArrowRight size={16} />
             </Link>
-            {settings?.email && (
-              <a
-                href={`mailto:${settings.email}`}
-                className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-sm rounded transition-all shadow-xs"
-                style={{ backgroundColor: "transparent", color: "var(--btn-secondary-text)", border: "1px solid var(--btn-secondary-border)" }}
-              >
-                <Mail size={16} />
-                {settings.email}
-              </a>
-            )}
+            <a
+              href={`mailto:${email}`}
+              className="inline-flex items-center gap-2 px-6 py-3 font-semibold text-sm rounded transition-all shadow-xs"
+              style={{ backgroundColor: "transparent", color: "var(--btn-secondary-text)", border: "1px solid var(--btn-secondary-border)" }}
+            >
+              <Mail size={16} />
+              {email}
+            </a>
           </div>
         </div>
 
@@ -66,40 +66,34 @@ export default function Footer({ settings }: FooterProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            {social?.github && (
-              <a
-                href={social.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg border transition-all shadow-xs"
-                style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
-                aria-label="GitHub"
-              >
-                <Github size={18} />
-              </a>
-            )}
-            {social?.linkedin && (
-              <a
-                href={social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 rounded-lg border transition-all shadow-xs"
-                style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={18} />
-              </a>
-            )}
-            {settings?.email && (
-              <a
-                href={`mailto:${settings.email}`}
-                className="p-2.5 rounded-lg border transition-all shadow-xs"
-                style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
-                aria-label="Email"
-              >
-                <Mail size={18} />
-              </a>
-            )}
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-lg border transition-all shadow-xs"
+              style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
+              aria-label="GitHub"
+            >
+              <Github size={18} />
+            </a>
+            <a
+              href={linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-lg border transition-all shadow-xs"
+              style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
+              aria-label="LinkedIn"
+            >
+              <Linkedin size={18} />
+            </a>
+            <a
+              href={`mailto:${email}`}
+              className="p-2.5 rounded-lg border transition-all shadow-xs"
+              style={{ backgroundColor: "var(--icon-bg)", borderColor: "var(--border)", color: "var(--icon-color)" }}
+              aria-label="Email"
+            >
+              <Mail size={18} />
+            </a>
           </div>
         </div>
 

@@ -43,34 +43,32 @@ export default async function ContactPage() {
               </div>
 
               <div className="space-y-4 pt-2">
-                {settings.email && (
-                  <div className="flex items-center gap-3 font-medium" style={{ color: "var(--foreground)" }}>
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--icon-bg)", border: "1px solid var(--border)", color: "var(--icon-color)" }}>
-                      <Mail size={18} />
-                    </div>
-                    <a
-                      href={`mailto:${settings.email}`}
-                      className="contact-link transition-colors"
-                      style={{ color: "var(--foreground)" }}
-                    >
-                      {settings.email}
-                    </a>
+                <div className="flex items-center gap-3 font-medium" style={{ color: "var(--foreground)" }}>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--icon-bg)", border: "1px solid var(--border)", color: "var(--icon-color)" }}>
+                    <Mail size={18} />
                   </div>
-                )}
-                {settings.phone && (
+                  <a
+                    href={`mailto:${settings.email || "nanadoumadjiyessain@gmail.com"}`}
+                    className="contact-link transition-colors"
+                    style={{ color: "var(--foreground)" }}
+                  >
+                    {settings.email || "nanadoumadjiyessain@gmail.com"}
+                  </a>
+                </div>
+                {(settings.phone || "+221 77 000 00 00") && (
                   <div className="flex items-center gap-3 font-medium" style={{ color: "var(--foreground)" }}>
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--icon-bg)", border: "1px solid var(--border)", color: "var(--icon-color)" }}>
                       <Phone size={18} />
                     </div>
-                    <span style={{ color: "var(--foreground)" }}>{settings.phone}</span>
+                    <span style={{ color: "var(--foreground)" }}>{settings.phone || "+221 77 000 00 00"}</span>
                   </div>
                 )}
-                {settings.location && (
+                {(settings.location || "Dakar, Sénégal") && (
                   <div className="flex items-center gap-3 font-medium" style={{ color: "var(--foreground)" }}>
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: "var(--icon-bg)", border: "1px solid var(--border)", color: "var(--icon-color)" }}>
                       <MapPin size={18} />
                     </div>
-                    <span style={{ color: "var(--foreground)" }}>{settings.location}</span>
+                    <span style={{ color: "var(--foreground)" }}>{settings.location || "Dakar, Sénégal"}</span>
                   </div>
                 )}
               </div>

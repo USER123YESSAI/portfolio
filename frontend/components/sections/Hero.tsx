@@ -1,8 +1,8 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/SocialIcons";
 import { getAssetUrl } from "@/lib/api";
 import type { SiteSettings } from "@/types";
@@ -12,8 +12,16 @@ interface HeroProps {
 }
 
 export default function Hero({ settings }: HeroProps) {
-  const photoUrl = getAssetUrl(settings.profile_photo ?? undefined);
-  const social = settings.social_links;
+  const photoUrl = getAssetUrl(settings.profile_photo ?? undefined) || "/images/profil.png";
+  const [imgSrc, setImgSrc] = useState(photoUrl);
+
+  useEffect(() => {
+    setImgSrc(photoUrl);
+  }, [photoUrl]);
+
+  const githubUrl = settings.social_links?.github || "https://github.com/YessainDev";
+  const linkedinUrl = settings.social_links?.linkedin || "https://linkedin.com/in/yessain";
+  const emailAddress = settings.email || "nanadoumadjiyessain@gmail.com";
 
   return (
     <section id="accueil" className="relative pt-12 sm:pt-16 pb-0 scroll-mt-24">
@@ -66,29 +74,31 @@ export default function Hero({ settings }: HeroProps) {
 
             {/* Social Links Row */}
             <div className="flex items-center gap-6 pt-2 text-sm font-medium" style={{ color: "var(--body-text)" }}>
-              {social?.github && (
-                <a
-                  href={social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 transition-colors hover:opacity-80"
-                >
-                  <Github size={16} />
-                  <span>GitHub</span>
-                </a>
-              )}
-              {social?.linkedin && (
-                <a
-                  href={social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 transition-colors hover:opacity-80"
-                >
-                  <Linkedin size={16} />
-                  <span>LinkedIn</span>
-                </a>
-              )}
-             
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 transition-colors hover:opacity-80"
+              >
+                <Github size={16} />
+                <span>GitHub</span>
+              </a>
+              <a
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 transition-colors hover:opacity-80"
+              >
+                <Linkedin size={16} />
+                <span>LinkedIn</span>
+              </a>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="flex items-center gap-1.5 transition-colors hover:opacity-80"
+              >
+                <Mail size={16} />
+                <span>Email</span>
+              </a>
             </div>
           </div>
 
@@ -100,25 +110,15 @@ export default function Hero({ settings }: HeroProps) {
 
               {/* Photo Image Card */}
               <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg" style={{ border: "1px solid var(--border)" }}>
-                {photoUrl ? (
-                  <Image
-                    src={photoUrl}
-                    alt="Yessaïn Nanadoumadji"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 288px, 320px"
-                    priority
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center" style={{ backgroundColor: "var(--card)" }}>
-                    <span className="text-6xl font-bold font-serif-custom mb-2" style={{ color: "var(--primary)" }}>
-                      YN
-                    </span>
-                    <span className="text-sm font-medium" style={{ color: "var(--body-text)" }}>
-                      Développeur Full-Stack
-                    </span>
-                  </div>
-                )}
+                <Image
+                  src={imgSrc}
+                  alt="Yessaïn Nanadoumadji"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 288px, 320px"
+                  priority
+                  onError={() => setImgSrc("/images/profil.png")}
+                />
               </div>
 
               {/* Floating Bottom-Left Location Card */}

@@ -6,6 +6,7 @@ import {
   getCertifications,
   getSettings,
 } from "@/lib/api";
+import { DEFAULT_SETTINGS } from "@/lib/defaults";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,18 +17,24 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function JourneyPage() {
-  let settings = {};
+  let settings = DEFAULT_SETTINGS;
   let experiences = [];
   let educations = [];
   let certifications = [];
 
   try {
-    [settings, experiences, educations, certifications] = await Promise.all([
+    const [fetchedSettings, fetchedExp, fetchedEdu, fetchedCert] = await Promise.all([
       getSettings(),
       getExperiences(),
       getEducations(),
       getCertifications(),
     ]);
+    if (fetchedSettings && Object.keys(fetchedSettings).length > 0) {
+      settings = { ...DEFAULT_SETTINGS, ...fetchedSettings };
+    }
+    if (fetchedExp) experiences = fetchedExp;
+    if (fetchedEdu) educations = fetchedEdu;
+    if (fetchedCert) certifications = fetchedCert;
   } catch {
     // API unavailable
   }

@@ -157,9 +157,26 @@ export const adminUploadAboutPhoto = (file: File) => {
 };
 export const uploadAboutPhoto = adminUploadAboutPhoto;
 
+const LOCAL_ASSET_MAP: Record<string, string> = {
+  "/uploads/profile/1788375080335-890266699.png": "/images/profil.png",
+  "/uploads/profile/1788375124479-305324185.png": "/images/about.png",
+  "/uploads/projects/1788370893095-283250163.jpeg": "/images/projects/1788370893095-283250163.jpeg",
+  "/uploads/projects/1785771918259-78512873.jpeg": "/images/commerce1.png",
+  "/uploads/projects/1785771965307-871920305.jpeg": "/images/projects/1785771965307-871920305.jpeg",
+  "/uploads/projects/1785771169328-429727765.jpeg": "/images/projects/1785771169328-429727765.jpeg",
+};
+
 export const getAssetUrl = (path?: string) => {
   if (!path) return null;
   if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) return path;
+
+  // Si c'est déjà un chemin statique public (ex: /images/...)
+  if (path.startsWith("/images/")) return path;
+
+  // Si l'asset possède une copie locale ultra-rapide (évite la mise en veille de Render)
+  if (LOCAL_ASSET_MAP[path]) {
+    return LOCAL_ASSET_MAP[path];
+  }
 
   let host = "localhost";
   if (typeof window !== "undefined") {

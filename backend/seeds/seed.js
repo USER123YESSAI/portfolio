@@ -53,7 +53,7 @@ const seed = async () => {
       },
       {
         cle: "email",
-        valeur: "yessain.nanadoumadji@email.com",
+        valeur: "nanadoumadjiyessain@gmail.com",
       },
       {
         cle: "phone",
@@ -66,7 +66,7 @@ const seed = async () => {
       {
         cle: "social_links",
         valeur: JSON.stringify({
-          github: "https://github.com/yessain",
+          github: "https://github.com/YessainDev",
           linkedin: "https://linkedin.com/in/yessain",
           twitter: "",
         }),
@@ -128,7 +128,7 @@ const seed = async () => {
         technologies: ["Next.js", "TypeScript", "Node.js", "Express", "MySQL", "Tailwind CSS"],
         categorie: "Full-Stack",
         lien_demo: "#",
-        lien_github: "https://github.com/yessain/portfolio",
+        lien_github: "https://github.com/YessainDev/portfolio",
         image: "/uploads/projects/1788370893095-283250163.jpeg",
         date_realisation: "2026-08-01",
         mis_en_avant: true,
@@ -141,7 +141,7 @@ const seed = async () => {
         technologies: ["React", "Node.js", "MongoDB", "Stripe"],
         categorie: "Full-Stack",
         lien_demo: "#",
-        lien_github: "https://github.com/yessain/ecommerce",
+        lien_github: "https://github.com/YessainDev/ecommerce",
         image: "/uploads/projects/1785771918259-78512873.jpeg",
         date_realisation: "2025-12-15",
         mis_en_avant: true,
@@ -154,7 +154,7 @@ const seed = async () => {
         technologies: ["Node.js", "Express", "PostgreSQL", "JWT"],
         categorie: "Backend",
         lien_demo: "#",
-        lien_github: "https://github.com/yessain/task-api",
+        lien_github: "https://github.com/YessainDev/task-api",
         image: "/uploads/projects/1785771965307-871920305.jpeg",
         date_realisation: "2025-06-20",
         mis_en_avant: false,

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight } from "lucide-react";
@@ -13,6 +14,11 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const imageUrl = getAssetUrl(project.image);
+  const [imgSrc, setImgSrc] = useState(imageUrl);
+
+  useEffect(() => {
+    setImgSrc(imageUrl);
+  }, [imageUrl]);
   const techs = parseTechnologies(project.technologies);
 
   // Extraction de l'année
@@ -39,13 +45,22 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         className="block relative h-52 overflow-hidden cursor-pointer"
         style={{ backgroundColor: "var(--bg-subtle)" }}
       >
-        {imageUrl ? (
+        {imgSrc ? (
           <Image
-            src={imageUrl}
+            src={imgSrc}
             alt={project.titre}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => {
+              if (project.titre.toLowerCase().includes("commerce")) {
+                setImgSrc("/images/commerce1.png");
+              } else if (project.titre.toLowerCase().includes("portfolio")) {
+                setImgSrc("/images/projects/1788370893095-283250163.jpeg");
+              } else {
+                setImgSrc(null);
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "var(--bg-subtle)" }}>

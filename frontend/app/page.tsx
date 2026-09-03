@@ -4,21 +4,31 @@ import AboutSection from "@/components/sections/AboutSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import { getProjects, getSettings, getSkills } from "@/lib/api";
+import { DEFAULT_SETTINGS, DEFAULT_PROJECTS } from "@/lib/defaults";
 import type { SiteSettings, Skill, Project } from "@/types";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  let settings: SiteSettings = {};
+  let settings: SiteSettings = DEFAULT_SETTINGS;
   let skills: Skill[] = [];
-  let projects: Project[] = [];
+  let projects: Project[] = DEFAULT_PROJECTS;
 
   try {
-    [settings, skills, projects] = await Promise.all([
+    const [fetchedSettings, fetchedSkills, fetchedProjects] = await Promise.all([
       getSettings(),
       getSkills(),
       getProjects(),
     ]);
+    if (fetchedSettings && Object.keys(fetchedSettings).length > 0) {
+      settings = { ...DEFAULT_SETTINGS, ...fetchedSettings };
+    }
+    if (fetchedSkills && fetchedSkills.length > 0) {
+      skills = fetchedSkills;
+    }
+    if (fetchedProjects && fetchedProjects.length > 0) {
+      projects = fetchedProjects;
+    }
   } catch {
     // API unavailable — render with defaults
   }

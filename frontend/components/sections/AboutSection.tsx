@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { CheckCircle2, MapPin, Sparkles, GraduationCap } from "lucide-react";
 import { getAssetUrl } from "@/lib/api";
@@ -29,7 +30,13 @@ const defaultQualities = [
 ];
 
 export default function AboutSection({ settings }: AboutSectionProps) {
-  const photoUrl = getAssetUrl(settings.about_photo || settings.profile_photo);
+  const photoUrl = getAssetUrl(settings.about_photo || settings.profile_photo) || "/images/about.png";
+  const [imgSrc, setImgSrc] = useState(photoUrl);
+
+  useEffect(() => {
+    setImgSrc(photoUrl);
+  }, [photoUrl]);
+
   const title =
     settings.about_title || "Un profil full stack dans le concret.";
   const description =
@@ -72,22 +79,14 @@ export default function AboutSection({ settings }: AboutSectionProps) {
               {/* Photo Box */}
               <div className="relative shrink-0 w-36 h-44 sm:w-40 sm:h-48 rounded-2xl overflow-hidden shadow-md group"
                    style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}>
-                {photoUrl ? (
-                  <Image
-                    src={photoUrl}
-                    alt="Photo À propos - Yessaïn Nanadoumadji"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 640px) 144px, 160px"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center">
-                    <Sparkles size={28} style={{ color: "var(--primary)" }} />
-                    <span className="text-xs font-semibold mt-2" style={{ color: "var(--body-text)" }}>
-                      Yessaïn N.
-                    </span>
-                  </div>
-                )}
+                <Image
+                  src={imgSrc}
+                  alt="Photo À propos - Yessaïn Nanadoumadji"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  sizes="(max-width: 640px) 144px, 160px"
+                  onError={() => setImgSrc("/images/about.png")}
+                />
               </div>
 
               {/* Text & Location */}
