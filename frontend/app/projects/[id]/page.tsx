@@ -97,7 +97,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           {/* Date */}
           {project.date_realisation && (
             <p className="text-sm font-mono mb-6" style={{ color: "var(--body-text)" }}>
-              Réalisé en {formatFullDate(project.date_realisation)}
+              Réalisé le {formatFullDate(project.date_realisation)}
             </p>
           )}
 
