@@ -160,8 +160,6 @@ const seed = async () => {
         mis_en_avant: false,
         user_id: admin.id,
       },
-        user_id: admin.id,
-      },
     ]);
 
     await Experience.bulkCreate([
