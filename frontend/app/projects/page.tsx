@@ -1,8 +1,9 @@
 import PublicLayout from "@/components/layout/PublicLayout";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import { getProjects, getSettings } from "@/lib/api";
-import { DEFAULT_SETTINGS, DEFAULT_PROJECTS } from "@/lib/defaults";
+import { DEFAULT_SETTINGS } from "@/lib/defaults";
 import type { Metadata } from "next";
+import type { Project } from "@/types";
 
 export const metadata: Metadata = {
   title: "Projets - Yessaïn Nanadoumadji",
@@ -14,14 +15,14 @@ export const revalidate = 60;
 
 export default async function ProjectsPage() {
   let settings = DEFAULT_SETTINGS;
-  let projects = DEFAULT_PROJECTS;
+  let projects: Project[] = [];
 
   try {
     const [fetchedSettings, fetchedProjects] = await Promise.all([getSettings(), getProjects()]);
     if (fetchedSettings && Object.keys(fetchedSettings).length > 0) {
       settings = { ...DEFAULT_SETTINGS, ...fetchedSettings };
     }
-    if (fetchedProjects && fetchedProjects.length > 0) {
+    if (fetchedProjects && Array.isArray(fetchedProjects)) {
       projects = fetchedProjects;
     }
   } catch {

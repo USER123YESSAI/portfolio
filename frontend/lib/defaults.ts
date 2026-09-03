@@ -1,4 +1,4 @@
-import type { SiteSettings, Project } from "@/types";
+import type { SiteSettings } from "@/types";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   site_title: "Yessaïn Nanadoumadji — Développeur Full-Stack",
@@ -23,48 +23,3 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
   about_languages: "Français (courant), Anglais technique",
 };
-
-export const DEFAULT_PROJECTS: Project[] = [
-  {
-    id: 1,
-    titre: "Portfolio Professionnel",
-    description:
-      "Site web personnel full-stack avec espace d'administration, API REST, authentification JWT et gestion de contenu dynamique.",
-    technologies: ["Next.js", "TypeScript", "Node.js", "Express", "MySQL", "Tailwind CSS"],
-    categorie: "Full-Stack",
-    lien_demo: "#",
-    lien_github: "https://github.com/YessainDev/portfolio",
-    image: "/images/projects/1788370893095-283250163.jpeg",
-    date_realisation: "2026-08-01",
-    mis_en_avant: true,
-    archive: false,
-  },
-  {
-    id: 2,
-    titre: "Application E-Commerce",
-    description:
-      "Plateforme e-commerce avec panier, paiement simulé, gestion des produits et tableau de bord administrateur.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    categorie: "Full-Stack",
-    lien_demo: "#",
-    lien_github: "https://github.com/YessainDev/ecommerce",
-    image: "/images/commerce1.png",
-    date_realisation: "2025-12-15",
-    mis_en_avant: true,
-    archive: false,
-  },
-  {
-    id: 3,
-    titre: "API REST Task Manager",
-    description:
-      "API RESTful pour la gestion de tâches avec authentification, validation et documentation Swagger.",
-    technologies: ["Node.js", "Express", "PostgreSQL", "JWT"],
-    categorie: "Backend",
-    lien_demo: "#",
-    lien_github: "https://github.com/YessainDev/task-api",
-    image: "/images/projects/1785771965307-871920305.jpeg",
-    date_realisation: "2025-06-20",
-    mis_en_avant: false,
-    archive: false,
-  },
-];

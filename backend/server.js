@@ -118,10 +118,9 @@ const start = async () => {
     await sequelize.authenticate();
     console.log("Connexion MySQL établie.");
 
-    // En production, ne pas altérer le schéma automatiquement
-    const alterSchema = process.env.NODE_ENV !== "production";
-    await sequelize.sync({ alter: alterSchema });
-    console.log(`Modèles synchronisés (alter: ${alterSchema}).`);
+    // Préserver strictement les tables et données existantes
+    await sequelize.sync();
+    console.log("Modèles synchronisés (tables et données existantes préservées).");
 
     app.listen(PORT, () => {
       console.log(`Serveur démarré sur http://localhost:${PORT}`);

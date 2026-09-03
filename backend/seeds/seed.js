@@ -13,8 +13,16 @@ const {
 
 const seed = async () => {
   try {
-    await sequelize.sync({ force: true });
-    console.log("Base de données synchronisée.");
+    // Ne JAMAIS forcer l'écrasement (force: true) pour préserver les données de production
+    await sequelize.sync();
+
+    // Si des données existent déjà (ex: admin, projets ajoutés), on n'écrase rien !
+    const existingUsers = await User.count();
+    if (existingUsers > 0) {
+      console.log("ℹ️ Des données existent déjà dans la base. Le seed est ignoré pour protéger vos données.");
+      process.exit(0);
+    }
+    console.log("Base de données initialisée pour la première fois.");
 
     const admin = await User.create({
       nom: "Yessaïn Nanadoumadji",

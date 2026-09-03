@@ -4,7 +4,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsGrid from "@/components/sections/ProjectsGrid";
 import { getProjects, getSettings, getSkills } from "@/lib/api";
-import { DEFAULT_SETTINGS, DEFAULT_PROJECTS } from "@/lib/defaults";
+import { DEFAULT_SETTINGS } from "@/lib/defaults";
 import type { SiteSettings, Skill, Project } from "@/types";
 
 export const revalidate = 60;
@@ -12,7 +12,7 @@ export const revalidate = 60;
 export default async function HomePage() {
   let settings: SiteSettings = DEFAULT_SETTINGS;
   let skills: Skill[] = [];
-  let projects: Project[] = DEFAULT_PROJECTS;
+  let projects: Project[] = [];
 
   try {
     const [fetchedSettings, fetchedSkills, fetchedProjects] = await Promise.all([
@@ -26,7 +26,7 @@ export default async function HomePage() {
     if (fetchedSkills && fetchedSkills.length > 0) {
       skills = fetchedSkills;
     }
-    if (fetchedProjects && fetchedProjects.length > 0) {
+    if (fetchedProjects && Array.isArray(fetchedProjects)) {
       projects = fetchedProjects;
     }
   } catch {
