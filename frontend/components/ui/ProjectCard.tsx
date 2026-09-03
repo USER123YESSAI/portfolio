@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { ExternalLink } from "lucide-react";
-import { Github } from "@/components/ui/SocialIcons";
+import Link from "next/link";
+import { ExternalLink, ArrowRight } from "lucide-react";
 import { getAssetUrl } from "@/lib/api";
 import { parseTechnologies } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -15,18 +15,30 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const imageUrl = getAssetUrl(project.image);
   const techs = parseTechnologies(project.technologies);
 
-  // Extract year from date_realisation or default to current year
+  // Extraction de l'année
   const year = project.date_realisation
     ? new Date(project.date_realisation).getFullYear()
     : new Date().getFullYear();
+
+  // Lien direct vers le site web du projet (priorité à lien_demo, fallback sur lien_github)
+  const siteUrl =
+    project.lien_demo && project.lien_demo !== "#"
+      ? project.lien_demo
+      : project.lien_github && project.lien_github !== "#"
+      ? project.lien_github
+      : null;
 
   return (
     <article
       className="rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full group"
       style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
     >
-      {/* Top Image Preview */}
-      <div className="relative h-52 overflow-hidden" style={{ backgroundColor: "var(--bg-subtle)" }}>
+      {/* Top Image Preview (cliquable vers Détails) */}
+      <Link
+        href={`/projects/${project.id}`}
+        className="block relative h-52 overflow-hidden cursor-pointer"
+        style={{ backgroundColor: "var(--bg-subtle)" }}
+      >
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -63,14 +75,19 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {year}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Card Body */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Title */}
-          <h3 className="text-xl font-bold font-serif-custom mb-2 group-hover:opacity-80 transition-colors" style={{ color: "var(--heading-color)" }}>
-            {project.titre}
+          <h3 className="text-xl font-bold font-serif-custom mb-2 transition-colors" style={{ color: "var(--heading-color)" }}>
+            <Link
+              href={`/projects/${project.id}`}
+              className="hover:opacity-80 transition-opacity"
+            >
+              {project.titre}
+            </Link>
           </h3>
 
           {/* Description */}
@@ -92,28 +109,32 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
 
-        {/* Footer Links */}
-        <div className="pt-3 flex items-center gap-5 text-xs font-semibold" style={{ borderTop: "1px solid var(--border)", color: "var(--heading-color)" }}>
-          {project.lien_demo && project.lien_demo !== "#" && (
+        {/* Footer Actions: Détails & Voir le site */}
+        <div
+          className="pt-3 flex items-center justify-between text-xs font-semibold"
+          style={{ borderTop: "1px solid var(--border)" }}
+        >
+          {/* 1. Bouton Détails : consulte la page détaillée du projet */}
+          <Link
+            href={`/projects/${project.id}`}
+            className="inline-flex items-center gap-1.5 transition-colors hover:opacity-75 font-semibold group/btn"
+            style={{ color: "var(--heading-color)" }}
+          >
+            <ArrowRight size={14} style={{ color: "var(--primary)" }} className="group-hover/btn:translate-x-0.5 transition-transform" />
+            <span>Détails</span>
+          </Link>
+
+          {/* 2. Bouton Voir le site : redirige directement vers le site du projet */}
+          {siteUrl && (
             <a
-              href={project.lien_demo}
+              href={siteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 transition-colors hover:opacity-70"
+              className="inline-flex items-center gap-1.5 transition-colors hover:opacity-75"
+              style={{ color: "var(--body-text)" }}
             >
               <ExternalLink size={13} />
-              <span>Démo live</span>
-            </a>
-          )}
-          {project.lien_github && (
-            <a
-              href={project.lien_github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 transition-colors hover:opacity-70"
-            >
-              <Github size={13} />
-              <span>Code source</span>
+              <span>Voir le site</span>
             </a>
           )}
         </div>
