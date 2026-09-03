@@ -81,12 +81,12 @@ const seed = async () => {
       },
       {
         cle: "about_title",
-        valeur: "Un profil full stack ancré dans le concret.",
+        valeur: "Un profil full stack dans le concret.",
       },
       {
         cle: "about_text",
         valeur:
-          "Étudiant en 3ème année de Bachelor Concepteur Développeur d'Applications (CSI 3) à l'EPF Africa à Dakar, je conçois des applications web complètes, robustes et orientées résultats. Curieux et autonome, je transforme des exigences complexes en architectures claires.",
+          "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
       },
       {
         cle: "about_languages",
