@@ -21,12 +21,8 @@ frontend/build/
 out/
 build/
 
-# Uploaded files in local dev (keep directory structure with .gitkeep)
-backend/uploads/*
-!backend/uploads/.gitkeep
-!backend/uploads/projects/.gitkeep
-!backend/uploads/profile/.gitkeep
-!backend/uploads/cv/.gitkeep
+# Uploaded files
+# (Assets in backend/uploads are tracked so Render has initial assets in production)
 
 # Logs & debug
 npm-debug.log*

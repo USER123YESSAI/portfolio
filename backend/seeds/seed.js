@@ -88,6 +88,18 @@ const seed = async () => {
         cle: "cv_password",
         valeur: "2026",
       },
+      {
+        cle: "profile_photo",
+        valeur: "/uploads/profile/1788375080335-890266699.png",
+      },
+      {
+        cle: "about_photo",
+        valeur: "/uploads/profile/1788375124479-305324185.png",
+      },
+      {
+        cle: "cv_path",
+        valeur: "/uploads/cv/1788330092179-49704196.pdf",
+      },
     ]);
 
     await Skill.bulkCreate([
@@ -117,6 +129,7 @@ const seed = async () => {
         categorie: "Full-Stack",
         lien_demo: "#",
         lien_github: "https://github.com/yessain/portfolio",
+        image: "/uploads/projects/1788370893095-283250163.jpeg",
         date_realisation: "2026-08-01",
         mis_en_avant: true,
         user_id: admin.id,
@@ -129,6 +142,7 @@ const seed = async () => {
         categorie: "Full-Stack",
         lien_demo: "#",
         lien_github: "https://github.com/yessain/ecommerce",
+        image: "/uploads/projects/1785771918259-78512873.jpeg",
         date_realisation: "2025-12-15",
         mis_en_avant: true,
         user_id: admin.id,
@@ -141,8 +155,11 @@ const seed = async () => {
         categorie: "Backend",
         lien_demo: "#",
         lien_github: "https://github.com/yessain/task-api",
+        image: "/uploads/projects/1785771965307-871920305.jpeg",
         date_realisation: "2025-06-20",
         mis_en_avant: false,
+        user_id: admin.id,
+      },
         user_id: admin.id,
       },
     ]);
