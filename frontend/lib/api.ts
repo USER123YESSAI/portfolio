@@ -5,7 +5,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 const api = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
-  timeout: 8000,
+  timeout: 30000,
 });
 
 api.interceptors.request.use((config) => {
@@ -160,10 +160,6 @@ export const uploadAboutPhoto = adminUploadAboutPhoto;
 const LOCAL_ASSET_MAP: Record<string, string> = {
   "/uploads/profile/1788375080335-890266699.png": "/images/profil.png",
   "/uploads/profile/1788375124479-305324185.png": "/images/about.png",
-  "/uploads/projects/1788370893095-283250163.jpeg": "/images/projects/1788370893095-283250163.jpeg",
-  "/uploads/projects/1785771918259-78512873.jpeg": "/images/commerce1.png",
-  "/uploads/projects/1785771965307-871920305.jpeg": "/images/projects/1785771965307-871920305.jpeg",
-  "/uploads/projects/1785771169328-429727765.jpeg": "/images/projects/1785771169328-429727765.jpeg",
 };
 
 export const getAssetUrl = (path?: string) => {
