@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import type { Project } from "@/types";
 import ProjectCard from "@/components/ui/ProjectCard";
-import { getProjects } from "@/lib/api";
 
 interface ProjectsGridProps {
   projects: Project[];
@@ -11,34 +10,10 @@ interface ProjectsGridProps {
 }
 
 export default function ProjectsGrid({
-  projects: initialProjects,
+  projects,
   showFilters = true,
 }: ProjectsGridProps) {
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [activeCategory, setActiveCategory] = useState<string>("Tous");
-
-  useEffect(() => {
-    if (initialProjects && initialProjects.length > 0) {
-      setProjects(initialProjects);
-    }
-  }, [initialProjects]);
-
-  // Synchronisation dynamique en direct : charge TOUS les projets de la base de données
-  useEffect(() => {
-    let isMounted = true;
-    getProjects()
-      .then((data) => {
-        if (isMounted && Array.isArray(data) && data.length > 0) {
-          setProjects(data);
-        }
-      })
-      .catch(() => {
-        // En cas d'erreur de connexion, conserve les projets actuels
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const allCategories = useMemo(() => {
     // Default categories from screenshot: Tous, Full-Stack, Front-End, Back-End, Mobile

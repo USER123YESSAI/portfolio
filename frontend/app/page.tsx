@@ -7,13 +7,12 @@ import { getProjects, getSettings, getSkills } from "@/lib/api";
 import { DEFAULT_SETTINGS, DEFAULT_PROJECTS } from "@/lib/defaults";
 import type { SiteSettings, Skill, Project } from "@/types";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
 
 export default async function HomePage() {
   let settings: SiteSettings = DEFAULT_SETTINGS;
   let skills: Skill[] = [];
-  let projects: Project[] = [];
+  let projects: Project[] = DEFAULT_PROJECTS;
 
   try {
     const [fetchedSettings, fetchedSkills, fetchedProjects] = await Promise.all([
@@ -39,7 +38,7 @@ export default async function HomePage() {
       <Hero settings={settings} />
       <AboutSection settings={settings} />
       <SkillsSection skills={skills} />
-      <ProjectsGrid projects={projects.length > 0 ? projects : DEFAULT_PROJECTS} showFilters={true} />
+      <ProjectsGrid projects={projects} showFilters={true} />
 
       {settings.career_goal && (
         <section className="py-20 sm:py-24 border-t" style={{ borderColor: "var(--border)" }}>

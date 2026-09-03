@@ -52,7 +52,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            onError={() => setImgSrc(null)}
+            onError={() => {
+              if (project.titre.toLowerCase().includes("commerce")) {
+                setImgSrc("/images/commerce1.png");
+              } else if (project.titre.toLowerCase().includes("portfolio")) {
+                setImgSrc("/images/projects/1788370893095-283250163.jpeg");
+              } else {
+                setImgSrc(null);
+              }
+            }}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "var(--bg-subtle)" }}>
