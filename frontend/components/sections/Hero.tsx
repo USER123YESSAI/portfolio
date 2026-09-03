@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/SocialIcons";
 import { getAssetUrl } from "@/lib/api";
 import type { SiteSettings } from "@/types";
@@ -43,7 +43,7 @@ export default function Hero({ settings }: HeroProps) {
             {/* Bio text */}
             <p className="text-base sm:text-lg leading-relaxed max-w-xl" style={{ color: "var(--body-text)" }}>
               {settings.bio ||
-                "Étudiant en Bachelor CSI 3 à EPF Africa, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile."}
+                "Jeune diplômé en Conception des Systèmes d’Information à EPF Africa, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile."}
             </p>
 
             {/* Action Buttons */}
@@ -88,15 +88,7 @@ export default function Hero({ settings }: HeroProps) {
                   <span>LinkedIn</span>
                 </a>
               )}
-              {settings.email && (
-                <a
-                  href={`mailto:${settings.email}`}
-                  className="flex items-center gap-1.5 transition-colors hover:opacity-80"
-                >
-                  <Mail size={16} />
-                  <span>Email</span>
-                </a>
-              )}
+             
             </div>
           </div>
 
@@ -151,7 +143,7 @@ export default function Hero({ settings }: HeroProps) {
         <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4">
           <div className="py-6 px-4 text-center border-r" style={{ borderColor: "var(--border)" }}>
             <div className="text-2xl sm:text-3xl font-bold font-serif-custom" style={{ color: "var(--heading-color)" }}>
-              3+
+              2+
             </div>
             <div className="text-xs sm:text-sm mt-0.5" style={{ color: "var(--body-text)" }}>
               Années de code
@@ -169,7 +161,7 @@ export default function Hero({ settings }: HeroProps) {
 
           <div className="py-6 px-4 text-center border-r" style={{ borderColor: "var(--border)" }}>
             <div className="text-2xl sm:text-3xl font-bold font-serif-custom" style={{ color: "var(--heading-color)" }}>
-              5+
+              9+
             </div>
             <div className="text-xs sm:text-sm mt-0.5" style={{ color: "var(--body-text)" }}>
               Technologies
@@ -181,7 +173,7 @@ export default function Hero({ settings }: HeroProps) {
               2026
             </div>
             <div className="text-xs sm:text-sm mt-0.5" style={{ color: "var(--body-text)" }}>
-              Diplôme Bachelor
+              Diplôme Conception des Systèmes d’Information
             </div>
           </div>
         </div>

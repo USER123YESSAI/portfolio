@@ -31,10 +31,10 @@ const defaultQualities = [
 export default function AboutSection({ settings }: AboutSectionProps) {
   const photoUrl = getAssetUrl(settings.about_photo || settings.profile_photo);
   const title =
-    settings.about_title || "Un profil full stack ancré dans le concret.";
+    settings.about_title || "Un profil full stack dans le concret.";
   const description =
     settings.about_text ||
-    "Étudiant en Bachelor CSI 3 à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST Node.js/Express performantes et des architectures robustes connectées à des bases de données relationnelles.";
+    "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.";
   const languages =
     settings.about_languages || "Français (courant), Anglais technique";
   const location = settings.location || "Dakar, Sénégal";
@@ -117,7 +117,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
               }}
             >
               <GraduationCap size={16} style={{ color: "var(--primary)" }} />
-              <span>Bachelor CSI 3 — EPF Africa, Dakar</span>
+              <span>Licence 3 en Conception des Systèmes d’Information — EPF Africa, Dakar</span>
             </div>
           </div>
 

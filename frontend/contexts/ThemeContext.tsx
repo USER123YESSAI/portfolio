@@ -17,20 +17,20 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
   mounted: false,
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     // Récupérer le thème depuis l'attribut déjà posé par le script inline ou le localStorage
     const attr = document.documentElement.getAttribute("data-theme") as Theme | null;
     const saved = (localStorage.getItem("portfolio-theme") as Theme | null) || attr;
-    const initialTheme = saved === "light" ? "light" : "dark";
+    const initialTheme = saved === "dark" ? "dark" : "light";
     
     setTheme(initialTheme);
     document.documentElement.setAttribute("data-theme", initialTheme);

@@ -1,53 +1,9 @@
 @import "tailwindcss";
 
 /* ========================================
-   DARK THEME (default)
+   LIGHT THEME (default) — white / light
    ======================================== */
 :root,
-[data-theme="dark"] {
-  --background: #0b1121;
-  --bg-subtle: #111b33;
-  --foreground: #f8fafc;
-  --foreground-muted: #cbd5e1;
-  --card: #152238;
-  --card-hover: #1e304f;
-  --border: #2a3b5c;
-  --border-subtle: #1c2a44;
-  --primary: #0ea5e9;
-  --primary-hover: #38bdf8;
-  --accent: #f59e0b;
-  --accent-text: #fbbf24;
-  --label-color: #38bdf8;
-  --heading-color: #ffffff;
-  --body-text: #e2e8f0;
-  --icon-bg: #152238;
-  --icon-color: #38bdf8;
-  --badge-primary: #8b5cf6;
-  --badge-secondary: #0ea5e9;
-  --progress-track: #0f1a2e;
-  --progress-fill-start: #0ea5e9;
-  --progress-fill-end: #38bdf8;
-  --nav-bg: rgba(11, 17, 33, 0.92);
-  --nav-border: #1e293b;
-  --nav-text: #cbd5e1;
-  --nav-text-active: #ffffff;
-  --logo-dot: #38bdf8;
-  --btn-primary-bg: #0ea5e9;
-  --btn-primary-hover: #0284c7;
-  --btn-secondary-border: #64748b;
-  --btn-secondary-text: #f8fafc;
-  --scrollbar-track: #0b1121;
-  --scrollbar-thumb: #334155;
-  --scrollbar-thumb-hover: #475569;
-  --bg-gradient-1: rgba(14, 165, 233, 0.08);
-  --bg-gradient-2: rgba(245, 158, 11, 0.06);
-}
-
-/* ========================================
-   LIGHT THEME — matches reference images:
-   light blue-gray gradient bg, navy text,
-   white cards, cyan accents, orange subtitle
-   ======================================== */
 [data-theme="light"] {
   --background: #e8f0f7;
   --bg-subtle: #f0f6fb;
@@ -85,6 +41,48 @@
   --scrollbar-thumb-hover: #94a3b8;
   --bg-gradient-1: rgba(14, 165, 233, 0.08);
   --bg-gradient-2: rgba(99, 179, 237, 0.06);
+}
+
+/* ========================================
+   DARK THEME
+   ======================================== */
+[data-theme="dark"] {
+  --background: #0b1121;
+  --bg-subtle: #111b33;
+  --foreground: #f8fafc;
+  --foreground-muted: #cbd5e1;
+  --card: #152238;
+  --card-hover: #1e304f;
+  --border: #2a3b5c;
+  --border-subtle: #1c2a44;
+  --primary: #0ea5e9;
+  --primary-hover: #38bdf8;
+  --accent: #f59e0b;
+  --accent-text: #fbbf24;
+  --label-color: #38bdf8;
+  --heading-color: #ffffff;
+  --body-text: #e2e8f0;
+  --icon-bg: #152238;
+  --icon-color: #38bdf8;
+  --badge-primary: #8b5cf6;
+  --badge-secondary: #0ea5e9;
+  --progress-track: #0f1a2e;
+  --progress-fill-start: #0ea5e9;
+  --progress-fill-end: #38bdf8;
+  --nav-bg: rgba(11, 17, 33, 0.92);
+  --nav-border: #1e293b;
+  --nav-text: #cbd5e1;
+  --nav-text-active: #ffffff;
+  --logo-dot: #38bdf8;
+  --btn-primary-bg: #0ea5e9;
+  --btn-primary-hover: #0284c7;
+  --btn-secondary-border: #64748b;
+  --btn-secondary-text: #f8fafc;
+  --scrollbar-track: #0b1121;
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+  --bg-gradient-1: rgba(14, 165, 233, 0.08);
+  --bg-gradient-2: rgba(245, 158, 11, 0.06);
 }
 
 @theme inline {
