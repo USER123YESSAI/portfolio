@@ -65,7 +65,7 @@ const seed = async () => {
       },
       {
         cle: "phone",
-        valeur: "+221 77 000 00 00",
+        valeur: "+221 77 850 84 67",
       },
       {
         cle: "location",
@@ -94,7 +94,7 @@ const seed = async () => {
       },
       {
         cle: "cv_password",
-        valeur: "2026",
+        valeur: "2002",
       },
       {
         cle: "profile_photo",
