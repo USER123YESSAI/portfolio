@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://yessain-nanadoumadji.com";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://yessain-nanadoumadji.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -77,6 +77,9 @@ export const metadata: Metadata = {
       "max-image-preview": "large",
       "max-snippet": -1,
     },
+  },
+  verification: {
+    google: "3c4rwlF8Ve_zPpNy-l4rkl0YhbUNrLP3z6SR_4DUmfc",
   },
 };
 
@@ -146,6 +149,7 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} h-full`}
     >
       <head>
+        <meta name="google-site-verification" content="3c4rwlF8Ve_zPpNy-l4rkl0YhbUNrLP3z6SR_4DUmfc" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var theme=t==='dark'?'dark':'light';document.documentElement.setAttribute('data-theme',theme);}catch(e){}})()`,
