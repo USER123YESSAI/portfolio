@@ -1,17 +1,23 @@
 "use client";
 
 import { useMemo } from "react";
+import { Code2, Layers, Wrench, Users } from "lucide-react";
 import type { Skill } from "@/types";
 
 interface SkillsSectionProps {
   skills: Skill[];
 }
 
-const categoryLabels: Record<string, string> = {
-  langages: "< >   Langages",
-  frameworks: "{ }   Frameworks & Libs",
-  outils: "⚙   Outils & Méthodes",
-  soft_skills: "👤   Soft Skills",
+interface CategoryConfig {
+  label: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
+}
+
+const categoryMeta: Record<string, CategoryConfig> = {
+  langages: { label: "Langages", icon: Code2 },
+  frameworks: { label: "Frameworks & Libs", icon: Layers },
+  outils: { label: "Outils & Méthodes", icon: Wrench },
+  soft_skills: { label: "Soft Skills", icon: Users },
 };
 
 export default function SkillsSection({ skills }: SkillsSectionProps) {
@@ -31,11 +37,15 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
       result[cat].push(skill);
     });
 
-    return order.map((key) => ({
-      key,
-      label: categoryLabels[key] || key,
-      items: result[key] || [],
-    }));
+    return order.map((key) => {
+      const meta = categoryMeta[key] || { label: key, icon: Code2 };
+      return {
+        key,
+        label: meta.label,
+        Icon: meta.icon,
+        items: result[key] || [],
+      };
+    });
   }, [skills]);
 
   return (
@@ -56,7 +66,7 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
 
         {/* 4-Column Grid of Cream Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {grouped.map(({ key, label, items }) => (
+          {grouped.map(({ key, label, Icon, items }) => (
             <div
               key={key}
               className="rounded-2xl p-5 shadow-sm flex flex-col transition-colors duration-300"
@@ -64,8 +74,9 @@ export default function SkillsSection({ skills }: SkillsSectionProps) {
             >
               {/* Header Pill */}
               <div className="mb-6">
-                <span className="inline-block px-3.5 py-1.5 rounded-lg text-sm font-semibold font-mono shadow-xs" style={{ backgroundColor: "var(--bg-subtle)", color: "var(--primary)", border: "1px solid var(--border)" }}>
-                  {label}
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-sm font-semibold font-mono shadow-xs" style={{ backgroundColor: "var(--bg-subtle)", color: "var(--primary)", border: "1px solid var(--border)" }}>
+                  <Icon size={16} />
+                  <span>{label}</span>
                 </span>
               </div>
 

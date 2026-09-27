@@ -6,8 +6,8 @@ import type { Metadata } from "next";
 import type { SiteSettings } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Contact - Yessaïn Nanadoumadji",
-  description: "Contactez Yessaïn Nanadoumadji pour un projet ou une opportunité.",
+  title: "Contact",
+  description: "Contactez Yessaïn Nanadoumadji pour un projet, un stage ou une opportunité professionnelle.",
 };
 
 export default async function ContactPage() {

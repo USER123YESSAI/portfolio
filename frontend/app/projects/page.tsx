@@ -6,9 +6,9 @@ import type { Metadata } from "next";
 import type { Project } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Projets - Yessaïn Nanadoumadji",
+  title: "Projets",
   description:
-    "Découvrez mes projets de développement web et applications full-stack.",
+    "Découvrez mes réalisations et projets de développement web et applications full-stack.",
 };
 
 export const revalidate = 60;

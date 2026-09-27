@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   Plus,
-  Edit2,
+  Pencil,
   Trash2,
   Archive,
   Star,
@@ -14,6 +14,8 @@ import {
   CheckCircle,
   FolderOpen,
   X,
+  Check,
+  Loader2,
 } from "lucide-react";
 import {
   adminGetProjects,
@@ -252,8 +254,18 @@ export default function AdminProjectsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un projet par titre ou description..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all shadow-xs"
+            className="w-full pl-10 pr-10 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all shadow-xs"
           />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 rounded-full"
+              title="Effacer la recherche"
+            >
+              <X size={15} />
+            </button>
+          )}
         </div>
         <select
           value={filterCat}
@@ -376,7 +388,7 @@ export default function AdminProjectsPage() {
                       title="Modifier"
                       className="p-1.5 rounded text-gray-700 hover:bg-white hover:text-[#1a3826] border border-transparent hover:border-[#e5dccb] transition-all"
                     >
-                      <Edit2 size={15} />
+                      <Pencil size={15} />
                     </button>
                     <button
                       onClick={() => handleDelete(project.id)}
@@ -548,7 +560,10 @@ export default function AdminProjectsPage() {
                     }
                     className="rounded border-[#e5dccb] text-[#1a3826] focus:ring-[#1a3826]"
                   />
-                  <span>Mettre en avant (★ Featured)</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <Star size={14} className="fill-amber-400 text-amber-500" />
+                    <span>Mettre en avant (Featured)</span>
+                  </span>
                 </label>
                 <label className="flex items-center gap-2 text-sm text-[#111827] cursor-pointer">
                   <input
@@ -567,20 +582,32 @@ export default function AdminProjectsPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-5 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
                 >
-                  Annuler
+                  <X size={15} />
+                  <span>Annuler</span>
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
                 >
-                  {submitting
-                    ? "Enregistrement..."
-                    : editingId
-                    ? "Enregistrer les modifications"
-                    : "Créer le projet"}
+                  {submitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Enregistrement...</span>
+                    </>
+                  ) : editingId ? (
+                    <>
+                      <Check size={16} />
+                      <span>Enregistrer les modifications</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={16} />
+                      <span>Créer le projet</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

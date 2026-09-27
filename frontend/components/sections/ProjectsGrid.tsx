@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { RotateCcw } from "lucide-react";
 import type { Project } from "@/types";
 import ProjectCard from "@/components/ui/ProjectCard";
 
@@ -94,10 +95,11 @@ export default function ProjectsGrid({
             </p>
             <button
               onClick={() => setActiveCategory("Tous")}
-              className="px-4 py-2 text-white text-xs font-semibold rounded shadow-xs transition-colors"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-white text-xs font-semibold rounded shadow-xs transition-colors cursor-pointer"
               style={{ backgroundColor: "var(--badge-primary)" }}
             >
-              Afficher tous les projets
+              <RotateCcw size={13} />
+              <span>Afficher tous les projets</span>
             </button>
           </div>
         )}

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { Github, Linkedin } from "@/components/ui/SocialIcons";
 import { getAssetUrl } from "@/lib/api";
 import type { SiteSettings } from "@/types";
@@ -58,17 +58,19 @@ export default function Hero({ settings }: HeroProps) {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
                 href="/projects"
-                className="inline-flex items-center justify-center px-5 py-2.5 text-white font-semibold text-sm rounded shadow-sm transition-all hover:opacity-90 hover:shadow-md"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 text-white font-semibold text-sm rounded shadow-sm transition-all hover:opacity-90 hover:shadow-md group"
                 style={{ backgroundColor: "var(--btn-primary-bg)" }}
               >
-                Voir mes projets
+                <span>Voir mes projets</span>
+                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center px-5 py-2.5 bg-transparent font-semibold text-sm rounded transition-all hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-transparent font-semibold text-sm rounded transition-all hover:bg-white/10"
                 style={{ color: "var(--btn-secondary-text)", border: "1px solid var(--btn-secondary-border)" }}
               >
-                Me contacter
+                <Mail size={15} />
+                <span>Me contacter</span>
               </Link>
             </div>
 

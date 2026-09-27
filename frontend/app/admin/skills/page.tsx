@@ -1,7 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Edit2, Trash2, CheckCircle, AlertCircle, X } from "lucide-react";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  CheckCircle,
+  AlertCircle,
+  X,
+  Code2,
+  Layers,
+  Wrench,
+  Users,
+  Check,
+  Loader2,
+} from "lucide-react";
 import {
   adminGetSkills,
   adminCreateSkill,
@@ -11,10 +24,10 @@ import {
 import type { Skill } from "@/types";
 
 const categories = [
-  { key: "langages", label: "< > Langages" },
-  { key: "frameworks", label: "{ } Frameworks & Libs" },
-  { key: "outils", label: "⚙ Outils & Méthodes" },
-  { key: "soft_skills", label: "👤 Soft Skills" },
+  { key: "langages", label: "Langages", icon: Code2 },
+  { key: "frameworks", label: "Frameworks & Libs", icon: Layers },
+  { key: "outils", label: "Outils & Méthodes", icon: Wrench },
+  { key: "soft_skills", label: "Soft Skills", icon: Users },
 ];
 
 export default function AdminSkillsPage() {
@@ -167,7 +180,7 @@ export default function AdminSkillsPage() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
-          {categories.map(({ key, label }) => {
+          {categories.map(({ key, label, icon: Icon }) => {
             const catSkills = skills.filter(
               (s) => (s.categorie || "outils") === key
             );
@@ -177,8 +190,9 @@ export default function AdminSkillsPage() {
                 className="bg-white border border-[#e5dccb] rounded-xl p-6 shadow-xs flex flex-col"
               >
                 <div className="flex items-center justify-between pb-4 border-b border-[#e5dccb] mb-4">
-                  <span className="bg-[#1a3826] text-white px-3 py-1 rounded-md text-xs font-semibold font-mono">
-                    {label}
+                  <span className="bg-[#1a3826] text-white px-3 py-1 rounded-md text-xs font-semibold font-mono inline-flex items-center gap-1.5">
+                    <Icon size={14} />
+                    <span>{label}</span>
                   </span>
                   <span className="text-xs text-gray-500 font-semibold">
                     {catSkills.length} compétence{catSkills.length > 1 ? "s" : ""}
@@ -219,7 +233,7 @@ export default function AdminSkillsPage() {
                             className="p-1.5 rounded text-gray-600 hover:bg-white hover:text-[#1a3826] transition-all"
                             title="Modifier"
                           >
-                            <Edit2 size={15} />
+                            <Pencil size={15} />
                           </button>
                           <button
                             onClick={() => handleDelete(skill.id)}
@@ -314,20 +328,32 @@ export default function AdminSkillsPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
                 >
-                  Annuler
+                  <X size={15} />
+                  <span>Annuler</span>
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
                 >
-                  {submitting
-                    ? "Enregistrement..."
-                    : editingId
-                    ? "Modifier"
-                    : "Créer"}
+                  {submitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Enregistrement...</span>
+                    </>
+                  ) : editingId ? (
+                    <>
+                      <Check size={16} />
+                      <span>Modifier</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={16} />
+                      <span>Créer</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

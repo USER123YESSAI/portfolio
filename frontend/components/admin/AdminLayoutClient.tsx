@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, Bell, ExternalLink } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import AdminSidebar from "./AdminSidebar";
 
@@ -84,7 +85,24 @@ export default function AdminLayoutClient({
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link
+              href="/admin/messages"
+              className="p-2 text-gray-500 hover:text-[#1a3826] hover:bg-gray-100 rounded-lg transition-colors relative"
+              title="Notifications & Messages"
+              aria-label="Notifications"
+            >
+              <Bell size={18} />
+            </Link>
+            <Link
+              href="/"
+              target="_blank"
+              className="p-2 text-gray-500 hover:text-[#1a3826] hover:bg-gray-100 rounded-lg transition-colors hidden sm:inline-flex"
+              title="Voir le site public"
+              aria-label="Voir le site public"
+            >
+              <ExternalLink size={18} />
+            </Link>
             <div className="flex items-center gap-2 px-3 py-1.5 bg-[#f3ece0] border border-[#e5dccb] rounded-full text-xs font-semibold text-[#1a3826]">
               <User size={14} />
               <span>{user?.nom ?? "Administrateur"}</span>

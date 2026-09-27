@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Lock, AlertCircle, ArrowLeft } from "lucide-react";
+import { Lock, AlertCircle, ArrowLeft, LogIn, Loader2 } from "lucide-react";
 import { login } from "@/lib/api";
 import { setToken } from "@/lib/auth";
 
@@ -108,9 +108,19 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white font-semibold text-sm rounded-lg shadow-sm transition-all"
+            className="w-full py-3 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white font-semibold text-sm rounded-lg shadow-sm transition-all inline-flex items-center justify-center gap-2 cursor-pointer"
           >
-            {loading ? "Connexion en cours..." : "Se connecter"}
+            {loading ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                <span>Connexion en cours...</span>
+              </>
+            ) : (
+              <>
+                <LogIn size={16} />
+                <span>Se connecter</span>
+              </>
+            )}
           </button>
         </form>
 

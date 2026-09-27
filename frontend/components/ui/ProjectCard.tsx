@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink, ArrowRight, Star } from "lucide-react";
 import { getAssetUrl } from "@/lib/api";
 import { parseTechnologies } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -79,7 +79,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           )}
           {project.mis_en_avant && (
             <span className="px-2 py-0.5 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow-xs text-white" style={{ backgroundColor: "var(--primary)" }}>
-              ★ Featured
+              <Star size={12} className="fill-white" />
+              <span>Featured</span>
             </span>
           )}
         </div>

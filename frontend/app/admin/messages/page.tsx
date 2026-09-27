@@ -10,6 +10,10 @@ import {
   Search,
   MailX,
   ExternalLink,
+  Inbox,
+  Bell,
+  CheckCheck,
+  X,
 } from "lucide-react";
 import {
   adminGetMessages,
@@ -167,39 +171,52 @@ export default function AdminMessagesPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher par nom, email ou contenu..."
-            className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all shadow-xs"
+            className="w-full pl-10 pr-10 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all shadow-xs"
           />
+          {search && (
+            <button
+              type="button"
+              onClick={() => setSearch("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-gray-600 rounded-full"
+              title="Effacer la recherche"
+            >
+              <X size={15} />
+            </button>
+          )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={() => setFilterRead("all")}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
               filterRead === "all"
                 ? "bg-[#1a3826] text-white shadow-xs"
                 : "bg-white border border-[#e5dccb] text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Tous ({messages.length})
+            <Inbox size={14} />
+            <span>Tous ({messages.length})</span>
           </button>
           <button
             onClick={() => setFilterRead("unread")}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
               filterRead === "unread"
                 ? "bg-[#1a3826] text-white shadow-xs"
                 : "bg-white border border-[#e5dccb] text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Non lus ({unreadCount})
+            <Bell size={14} />
+            <span>Non lus ({unreadCount})</span>
           </button>
           <button
             onClick={() => setFilterRead("read")}
-            className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
               filterRead === "read"
                 ? "bg-[#1a3826] text-white shadow-xs"
                 : "bg-white border border-[#e5dccb] text-gray-700 hover:bg-gray-100"
             }`}
           >
-            Lus ({messages.length - unreadCount})
+            <CheckCheck size={14} />
+            <span>Lus ({messages.length - unreadCount})</span>
           </button>
         </div>
       </div>

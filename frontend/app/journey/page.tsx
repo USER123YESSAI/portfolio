@@ -10,8 +10,8 @@ import { DEFAULT_SETTINGS } from "@/lib/defaults";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Parcours - Yessaïn Nanadoumadji",
-  description: "Mon parcours professionnel, formations et certifications.",
+  title: "Parcours",
+  description: "Mon parcours professionnel, formations académiques et certifications.",
 };
 
 export const revalidate = 60;

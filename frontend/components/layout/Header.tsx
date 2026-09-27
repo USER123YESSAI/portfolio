@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, Download } from "lucide-react";
 import CVPasswordModal from "@/components/ui/CVPasswordModal";
 
 const navLinks = [
@@ -142,7 +142,7 @@ export default function Header({
           {/* CV Button */}
           <button
             onClick={() => setCvModalOpen(true)}
-            className="hidden sm:inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white rounded transition-all shadow-sm cursor-pointer"
+            className="hidden sm:inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-semibold text-white rounded transition-all shadow-sm cursor-pointer"
             style={{ backgroundColor: "var(--btn-primary-bg)" }}
             onMouseOver={(e) =>
               (e.currentTarget.style.backgroundColor = "var(--btn-primary-hover)")
@@ -151,7 +151,8 @@ export default function Header({
               (e.currentTarget.style.backgroundColor = "var(--btn-primary-bg)")
             }
           >
-            Télécharger CV
+            <Download size={15} />
+            <span>Télécharger CV</span>
           </button>
 
           {/* Theme Toggle Button */}
@@ -228,10 +229,11 @@ export default function Header({
                   setMobileOpen(false);
                   setCvModalOpen(true);
                 }}
-                className="w-full text-center px-4 py-2.5 text-sm font-semibold text-white rounded shadow-sm cursor-pointer"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white rounded shadow-sm cursor-pointer"
                 style={{ backgroundColor: "var(--btn-primary-bg)" }}
               >
-                Télécharger CV
+                <Download size={15} />
+                <span>Télécharger CV</span>
               </button>
             </div>
           </nav>

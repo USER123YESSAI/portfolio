@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import {
   Plus,
-  Edit2,
+  Pencil,
   Trash2,
   CheckCircle,
   AlertCircle,
   X,
   GraduationCap,
+  Check,
+  Loader2,
 } from "lucide-react";
 import {
   adminGetEducations,
@@ -214,7 +216,7 @@ export default function AdminEducationsPage() {
                     onClick={() => handleOpenEdit(edu)}
                     className="px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-700 bg-white border border-[#e5dccb] hover:bg-gray-50 inline-flex items-center gap-1.5 transition-all"
                   >
-                    <Edit2 size={13} />
+                    <Pencil size={13} />
                     Modifier
                   </button>
                   <button
@@ -332,20 +334,32 @@ export default function AdminEducationsPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
                 >
-                  Annuler
+                  <X size={15} />
+                  <span>Annuler</span>
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
                 >
-                  {submitting
-                    ? "Enregistrement..."
-                    : editingId
-                    ? "Modifier"
-                    : "Créer"}
+                  {submitting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Enregistrement...</span>
+                    </>
+                  ) : editingId ? (
+                    <>
+                      <Check size={16} />
+                      <span>Modifier</span>
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={16} />
+                      <span>Créer</span>
+                    </>
+                  )}
                 </button>
               </div>
             </form>

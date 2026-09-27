@@ -13,6 +13,7 @@ import {
   Share2,
   Sparkles,
   Trash2,
+  Loader2,
 } from "lucide-react";
 import {
   adminGetSettings,
@@ -486,12 +487,17 @@ export default function AdminSettingsPage() {
                 disabled={submitting}
                 className="inline-flex items-center gap-2 px-8 py-3 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white font-semibold text-sm rounded-lg shadow-sm transition-all"
               >
-                <Save size={16} />
-                <span>
-                  {submitting
-                    ? "Enregistrement en cours..."
-                    : "Enregistrer tous les paramètres"}
-                </span>
+                {submitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Enregistrement en cours...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save size={16} />
+                    <span>Enregistrer tous les paramètres</span>
+                  </>
+                )}
               </button>
             </div>
           </form>
@@ -521,7 +527,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
               <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#111827] border border-[#e5dccb] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
-                <Upload size={14} />
+                {photoUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {photoUploading ? "Upload en cours..." : "Changer la photo"}
                 </span>
@@ -561,7 +567,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
               <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#111827] border border-[#e5dccb] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
-                <Upload size={14} />
+                {aboutPhotoUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {aboutPhotoUploading ? "Upload en cours..." : "Changer la photo À propos"}
                 </span>
@@ -614,7 +620,7 @@ export default function AdminSettingsPage() {
                 </div>
               </div>
               <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#1a3826] hover:bg-[#142a1d] text-white text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
-                <Upload size={14} />
+                {cvUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {cvUploading ? "Upload du CV..." : "Uploader un nouveau CV"}
                 </span>

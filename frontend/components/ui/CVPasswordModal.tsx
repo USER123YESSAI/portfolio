@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Lock, X, AlertCircle, Loader2 } from "lucide-react";
+import { Lock, X, AlertCircle, Loader2, Download } from "lucide-react";
 import { verifyCVPassword, downloadCV } from "@/lib/api";
 
 interface CVPasswordModalProps {
@@ -162,7 +162,10 @@ export default function CVPasswordModal({
                 <span>Vérification...</span>
               </>
             ) : (
-              <span>Télécharger</span>
+              <>
+                <Download size={18} />
+                <span>Télécharger</span>
+              </>
             )}
           </button>
 
@@ -170,9 +173,10 @@ export default function CVPasswordModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-full py-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors text-center cursor-pointer"
+            className="w-full py-2 text-xs font-semibold text-gray-400 hover:text-white transition-colors text-center cursor-pointer inline-flex items-center justify-center gap-1.5"
           >
-            Annuler et fermer
+            <X size={14} />
+            <span>Annuler et fermer</span>
           </button>
         </form>
       </div>
