@@ -22,11 +22,15 @@ api.interceptors.request.use((config) => {
 const cache = new Map<string, { data: unknown; timestamp: number }>();
 const CACHE_TTL = 15000;
 
-const getCached = async (url: string, params?: unknown) => {
+export const clearApiCache = () => {
+  cache.clear();
+};
+
+const getCached = async (url: string, params?: unknown, bypassCache = false) => {
   const key = `${url}_${JSON.stringify(params || {})}`;
   const now = Date.now();
   const cached = cache.get(key);
-  if (cached && now - cached.timestamp < CACHE_TTL) {
+  if (!bypassCache && cached && now - cached.timestamp < CACHE_TTL) {
     return cached.data;
   }
   const response = await api.get(url, { params });
@@ -47,7 +51,7 @@ export const getEducations = () => getCached("/educations");
 
 export const getCertifications = () => getCached("/certifications");
 
-export const getSettings = () => getCached("/settings");
+export const getSettings = (bypassCache = false) => getCached("/settings", undefined, bypassCache);
 
 export const sendContact = (data: {
   nom: string;
@@ -128,32 +132,49 @@ export const adminDeleteMessage = (id: number) =>
   api.delete(`/admin/messages/${id}`).then((r) => r.data);
 
 export const adminGetSettings = () => api.get("/admin/settings").then((r) => r.data);
-export const adminUpdateSettings = (data: object) =>
-  api.put("/admin/settings", data).then((r) => r.data);
+export const adminUpdateSettings = (data: object) => {
+  clearApiCache();
+  return api.put("/admin/settings", data).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
+};
 export const adminUploadCV = (file: File) => {
+  clearApiCache();
   const formData = new FormData();
   formData.append("cv", file);
   return api.post("/admin/settings/cv", formData, {
     headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => r.data);
+  }).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
 };
 export const uploadCV = adminUploadCV;
 
 export const adminUploadProfilePhoto = (file: File) => {
+  clearApiCache();
   const formData = new FormData();
   formData.append("photo", file);
   return api.post("/admin/settings/profile-photo", formData, {
     headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => r.data);
+  }).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
 };
 export const uploadProfileImage = adminUploadProfilePhoto;
 
 export const adminUploadAboutPhoto = (file: File) => {
+  clearApiCache();
   const formData = new FormData();
   formData.append("photo", file);
   return api.post("/admin/settings/about-photo", formData, {
     headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => r.data);
+  }).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
 };
 export const uploadAboutPhoto = adminUploadAboutPhoto;
 
