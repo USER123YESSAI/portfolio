@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { Github } from "@/components/ui/SocialIcons";
 import PublicLayout from "@/components/layout/PublicLayout";
 import { getProject, getSettings, getAssetUrl } from "@/lib/api";
 import { formatFullDate, parseTechnologies } from "@/lib/utils";
@@ -145,9 +144,9 @@ export default async function ProjectDetailPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Action buttons: Voir le site & Code source */}
-          <div className="flex flex-wrap gap-4 pt-2">
-            {siteUrl && (
+          {/* Action button: Voir le site */}
+          {siteUrl && (
+            <div className="pt-2">
               <a
                 href={siteUrl}
                 target="_blank"
@@ -157,23 +156,8 @@ export default async function ProjectDetailPage({ params }: Props) {
               >
                 <ExternalLink size={16} /> Voir le site
               </a>
-            )}
-            {project.lien_github && project.lien_github !== "#" && (
-              <a
-                href={project.lien_github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:opacity-90 cursor-pointer border shadow-xs"
-                style={{
-                  backgroundColor: "var(--card)",
-                  borderColor: "var(--border)",
-                  color: "var(--heading-color)",
-                }}
-              >
-                <Github size={16} /> Code source
-              </a>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
     </PublicLayout>
