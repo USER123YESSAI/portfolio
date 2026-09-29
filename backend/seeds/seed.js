@@ -39,7 +39,7 @@ const seed = async () => {
       {
         cle: "site_description",
         valeur:
-          "Portfolio professionnel de Yessaïn Nanadoumadji, étudiant Bachelor CSI 3 à EPF Africa, développeur full-stack passionné.",
+          "Portfolio professionnel de Yessaïn Nanadoumadji, diplômé d'une Licence en Conception des Systèmes d’Information à EPF Africa, développeur full-stack passionné.",
       },
       {
         cle: "hero_title",
@@ -47,7 +47,7 @@ const seed = async () => {
       },
       {
         cle: "hero_subtitle",
-        valeur: "Étudiant Bachelor CSI 3 — EPF Africa, Dakar",
+        valeur: "Licence en Conception des Systèmes d’Information — EPF Africa, Dakar",
       },
       {
         cle: "bio",

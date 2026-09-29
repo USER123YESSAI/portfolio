@@ -116,7 +116,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
               }}
             >
               <GraduationCap size={16} style={{ color: "var(--primary)" }} />
-              <span>Licence 3 en Conception des Systèmes d’Information — EPF Africa, Dakar</span>
+              <span>Licence en Conception des Systèmes d’Information — EPF Africa, Dakar</span>
             </div>
           </div>
 

@@ -5,7 +5,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   site_description:
     "Portfolio professionnel de Yessaïn Nanadoumadji, développeur full-stack. Découvrez mes projets, compétences et parcours.",
   hero_title: "Développeur Full-Stack",
-  hero_subtitle: "Licence 3 en Conception des Systèmes d’Information — EPF Africa, Dakar",
+  hero_subtitle: "Licence en Conception des Systèmes d’Information — EPF Africa, Dakar",
   bio: "Jeune diplômé en Conception des Systèmes d’Information à EPF Africa, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile.",
   career_goal:
     "Recherche un stage ou une alternance en développement full-stack pour mettre en pratique mes compétences et contribuer à des projets innovants.",
