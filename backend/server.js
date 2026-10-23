@@ -11,6 +11,7 @@ const apiRoutes = require("./routes/api.routes");
 const adminRoutes = require("./routes/admin.routes");
 const authRoutes = require("./routes/auth.routes");
 const errorHandler = require("./middleware/errorHandler");
+const { restoreMediaFromDB, syncDiskUploadsToDB } = require("./utils/mediaService");
 
 // ── Validation des variables d'environnement critiques ─────────────────────
 if (!process.env.JWT_SECRET) {
@@ -77,6 +78,32 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
+// ── Servir les uploads avec restauration automatique depuis la BDD (résiste aux redémarrages de Render) ──
+app.get("/uploads/:folder/:filename", async (req, res, next) => {
+  const { folder, filename } = req.params;
+  const localPath = path.join(__dirname, "uploads", folder, filename);
+
+  // 1. Si le fichier existe déjà sur le disque local, le servir directement
+  if (fs.existsSync(localPath)) {
+    return res.sendFile(localPath);
+  }
+
+  // 2. Si le conteneur Render gratuit a redémarré et effacé le fichier éphémère,
+  // le restaurer instantanément depuis la base de données Aiven MySQL
+  try {
+    const restored = await restoreMediaFromDB(folder, filename);
+    if (restored) {
+      res.setHeader("Content-Type", restored.mimetype || "application/octet-stream");
+      res.setHeader("Cache-Control", "public, max-age=2592000, immutable");
+      return res.send(restored.buffer);
+    }
+  } catch (err) {
+    console.error("Erreur récupération media:", err);
+  }
+
+  next();
+});
+
 // ── Fichiers statiques (uploads) avec cache agressif (30 jours) ─────────────
 app.use(
   "/uploads",
@@ -121,6 +148,9 @@ const start = async () => {
     // Préserver strictement les tables et données existantes
     await sequelize.sync();
     console.log("Modèles synchronisés (tables et données existantes préservées).");
+
+    // Sauvegarder automatiquement tous les uploads existants dans MySQL
+    await syncDiskUploadsToDB();
 
     app.listen(PORT, () => {
       console.log(`Serveur démarré sur http://localhost:${PORT}`);

@@ -32,10 +32,23 @@ const defaultQualities = [
 export default function AboutSection({ settings }: AboutSectionProps) {
   const photoUrl = getAssetUrl(settings.about_photo || settings.profile_photo) || "/images/about.png";
   const [imgSrc, setImgSrc] = useState(photoUrl);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     setImgSrc(photoUrl);
+    setRetryCount(0);
   }, [photoUrl]);
+
+  const handleImageError = () => {
+    if (retryCount < 3 && photoUrl !== "/images/about.png") {
+      setTimeout(() => {
+        setRetryCount((prev) => prev + 1);
+        setImgSrc(`${photoUrl}${photoUrl.includes("?") ? "&" : "?"}retry=${Date.now()}`);
+      }, 3000);
+    } else {
+      setImgSrc("/images/about.png");
+    }
+  };
 
   const title =
     settings.about_title || "Un profil full stack dans le concret.";
@@ -85,7 +98,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 640px) 144px, 160px"
-                  onError={() => setImgSrc("/images/about.png")}
+                  onError={handleImageError}
                 />
               </div>
 

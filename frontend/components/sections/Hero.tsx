@@ -14,10 +14,24 @@ interface HeroProps {
 export default function Hero({ settings }: HeroProps) {
   const photoUrl = getAssetUrl(settings.profile_photo ?? undefined) || "/images/profil.png";
   const [imgSrc, setImgSrc] = useState(photoUrl);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     setImgSrc(photoUrl);
+    setRetryCount(0);
   }, [photoUrl]);
+
+  const handleImageError = () => {
+    // Si Render est en phase de réveil (cold start ~30s), retenter 3 fois avant de basculer sur le fallback
+    if (retryCount < 3 && photoUrl !== "/images/profil.png") {
+      setTimeout(() => {
+        setRetryCount((prev) => prev + 1);
+        setImgSrc(`${photoUrl}${photoUrl.includes("?") ? "&" : "?"}retry=${Date.now()}`);
+      }, 3000);
+    } else {
+      setImgSrc("/images/profil.png");
+    }
+  };
 
   const githubUrl = settings.social_links?.github || "https://github.com/YessainDev";
   const linkedinUrl = settings.social_links?.linkedin || "https://linkedin.com/in/yessain";
@@ -119,7 +133,7 @@ export default function Hero({ settings }: HeroProps) {
                   className="object-cover"
                   sizes="(max-width: 640px) 288px, 320px"
                   priority
-                  onError={() => setImgSrc("/images/profil.png")}
+                  onError={handleImageError}
                 />
               </div>
 

@@ -2,6 +2,7 @@ const path = require("path");
 const fs = require("fs");
 const { Setting } = require("../models");
 const asyncHandler = require("../utils/asyncHandler");
+const { persistUploadedFile } = require("../utils/mediaService");
 
 const getAll = asyncHandler(async (_req, res) => {
   const settings = await Setting.findAll();
@@ -87,6 +88,7 @@ const uploadCV = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Aucun fichier reçu." });
   }
 
+  await persistUploadedFile(req.file, "cv");
   const cvPath = `/uploads/cv/${req.file.filename}`;
   await Setting.upsert({ cle: "cv_path", valeur: cvPath });
   res.json({ message: "CV mis à jour.", cv_path: cvPath });
@@ -97,6 +99,7 @@ const uploadProfile = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Aucun fichier reçu." });
   }
 
+  await persistUploadedFile(req.file, "profile");
   const profilePath = `/uploads/profile/${req.file.filename}`;
   await Setting.upsert({ cle: "profile_photo", valeur: profilePath });
   res.json({ message: "Photo de profil mise à jour.", profile_photo: profilePath });
@@ -107,6 +110,7 @@ const uploadAboutPhoto = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Aucun fichier reçu." });
   }
 
+  await persistUploadedFile(req.file, "profile");
   const aboutPath = `/uploads/profile/${req.file.filename}`;
   await Setting.upsert({ cle: "about_photo", valeur: aboutPath });
   res.json({ message: "Photo À propos mise à jour.", about_photo: aboutPath });

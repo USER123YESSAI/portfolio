@@ -1,5 +1,6 @@
 const { Project } = require("../models");
 const asyncHandler = require("../utils/asyncHandler");
+const { persistUploadedFile } = require("../utils/mediaService");
 
 const normalizeProject = (project) => {
   if (!project) return project;
@@ -93,6 +94,9 @@ const parseProjectData = (body, file) => {
 };
 
 const create = asyncHandler(async (req, res) => {
+  if (req.file) {
+    await persistUploadedFile(req.file, "projects");
+  }
   const data = parseProjectData(req.body, req.file);
   data.user_id = req.user.id;
   const project = await Project.create(data);
@@ -103,6 +107,9 @@ const update = asyncHandler(async (req, res) => {
   const project = await Project.findByPk(req.params.id);
   if (!project) return res.status(404).json({ message: "Projet introuvable." });
 
+  if (req.file) {
+    await persistUploadedFile(req.file, "projects");
+  }
   const data = parseProjectData(req.body, req.file);
   await project.update(data);
   res.json(normalizeProject(project));

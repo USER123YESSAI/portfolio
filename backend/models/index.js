@@ -7,6 +7,7 @@ const Education = require("./Education");
 const Certification = require("./Certification");
 const Message = require("./Message");
 const Setting = require("./Setting");
+const Media = require("./Media");
 
 User.hasMany(Project, { foreignKey: "user_id", onDelete: "CASCADE" });
 Project.belongsTo(User, { foreignKey: "user_id" });
@@ -33,4 +34,5 @@ module.exports = {
   Certification,
   Message,
   Setting,
+  Media,
 };
