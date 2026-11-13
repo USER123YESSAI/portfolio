@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, ArrowRight, Star } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { getAssetUrl } from "@/lib/api";
 import { parseTechnologies } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -15,10 +16,12 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   const imageUrl = getAssetUrl(project.image);
   const [imgSrc, setImgSrc] = useState(imageUrl);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setImgSrc(imageUrl);
   }, [imageUrl]);
+
   const techs = parseTechnologies(project.technologies);
 
   // Extraction de l'année
@@ -35,9 +38,27 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       : null;
 
   return (
-    <article
-      className="rounded-2xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col h-full group"
-      style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      whileHover={
+        shouldReduceMotion
+          ? {}
+          : {
+              y: -8,
+              boxShadow: "0 22px 40px -12px rgba(0,0,0,0.14)",
+              transition: { duration: 0.25 },
+            }
+      }
+      className="rounded-2xl overflow-hidden shadow-xs transition-shadow duration-300 flex flex-col h-full group"
+      style={{
+        backgroundColor: "var(--card)",
+        border: "1px solid var(--border)",
+      }}
     >
       {/* Top Image Preview (cliquable vers Détails) */}
       <Link
@@ -50,7 +71,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             src={imgSrc}
             alt={project.titre}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => {
               if (project.titre.toLowerCase().includes("commerce")) {
@@ -63,8 +84,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: "var(--bg-subtle)" }}>
-            <span className="text-3xl font-bold font-serif-custom" style={{ color: "var(--primary)" }}>
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ backgroundColor: "var(--bg-subtle)" }}
+          >
+            <span
+              className="text-3xl font-bold font-serif-custom transition-transform duration-300 group-hover:scale-110"
+              style={{ color: "var(--primary)" }}
+            >
               {project.titre.charAt(0)}
             </span>
           </div>
@@ -73,15 +100,23 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         {/* Top-Left Badges (Category & Featured) */}
         <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
           {project.categorie && (
-            <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono shadow-xs text-white" style={{ backgroundColor: "var(--badge-primary)" }}>
+            <span
+              className="px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono shadow-xs text-white"
+              style={{ backgroundColor: "var(--badge-primary)" }}
+            >
               {project.categorie}
             </span>
           )}
           {project.mis_en_avant && (
-            <span className="px-2 py-0.5 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow-xs text-white" style={{ backgroundColor: "var(--primary)" }}>
+            <motion.span
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="px-2 py-0.5 rounded-md text-xs font-semibold inline-flex items-center gap-1 shadow-xs text-white"
+              style={{ backgroundColor: "var(--primary)" }}
+            >
               <Star size={12} className="fill-white" />
               <span>Featured</span>
-            </span>
+            </motion.span>
           )}
         </div>
 
@@ -96,28 +131,38 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       {/* Card Body */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Title */}
-          <h3 className="text-xl font-bold font-serif-custom mb-2 transition-colors" style={{ color: "var(--heading-color)" }}>
+          {/* Title with hover color change */}
+          <h3
+            className="text-xl font-bold font-serif-custom mb-2 transition-colors group-hover:text-[var(--primary)]"
+            style={{ color: "var(--heading-color)" }}
+          >
             <Link
               href={`/projects/${project.id}`}
-              className="hover:opacity-80 transition-opacity"
+              className="hover:opacity-90 transition-opacity"
             >
               {project.titre}
             </Link>
           </h3>
 
           {/* Description */}
-          <p className="text-sm leading-relaxed mb-4 line-clamp-3" style={{ color: "var(--body-text)" }}>
+          <p
+            className="text-sm leading-relaxed mb-4 line-clamp-3"
+            style={{ color: "var(--body-text)" }}
+          >
             {project.description}
           </p>
 
-          {/* Technologies Row */}
+          {/* Technologies Row with micro-badges */}
           <div className="flex flex-wrap gap-1.5 mb-6">
             {techs.map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-0.5 rounded text-xs font-mono font-medium"
-                style={{ backgroundColor: "var(--progress-track)", color: "var(--foreground-muted)", border: "1px solid var(--border)" }}
+                className="px-2 py-0.5 rounded text-xs font-mono font-medium transition-transform group-hover:scale-102"
+                style={{
+                  backgroundColor: "var(--progress-track)",
+                  color: "var(--foreground-muted)",
+                  border: "1px solid var(--border)",
+                }}
               >
                 {tech}
               </span>
@@ -136,13 +181,19 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             className="inline-flex items-center gap-1.5 transition-colors hover:opacity-75 font-semibold group/btn"
             style={{ color: "var(--heading-color)" }}
           >
-            <ArrowRight size={14} style={{ color: "var(--primary)" }} className="group-hover/btn:translate-x-0.5 transition-transform" />
+            <ArrowRight
+              size={14}
+              style={{ color: "var(--primary)" }}
+              className="group-hover/btn:translate-x-1 transition-transform duration-300"
+            />
             <span>Détails</span>
           </Link>
 
           {/* 2. Bouton Voir le site : redirige directement vers le site du projet */}
           {siteUrl && (
-            <a
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href={siteUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -151,10 +202,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             >
               <ExternalLink size={13} />
               <span>Voir le site</span>
-            </a>
+            </motion.a>
           )}
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

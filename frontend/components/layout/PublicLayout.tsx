@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import MotionBackground from "@/components/motion/MotionBackground";
 import { useTheme } from "@/contexts/ThemeContext";
 import type { SiteSettings } from "@/types";
 
@@ -17,13 +18,14 @@ export default function PublicLayout({ children, settings }: PublicLayoutProps) 
 
   return (
     <>
+      <MotionBackground />
       <Header
         mobileOpen={mobileOpen}
         setMobileOpen={setMobileOpen}
         theme={theme}
         toggleTheme={toggleTheme}
       />
-      <main className="pt-20 min-h-screen">{children}</main>
+      <main className="pt-20 min-h-screen relative">{children}</main>
       <Footer settings={settings} />
     </>
   );

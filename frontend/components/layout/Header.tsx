@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Moon, Sun, Download } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import CVPasswordModal from "@/components/ui/CVPasswordModal";
 
 const navLinks = [
@@ -95,7 +96,10 @@ export default function Header({
   };
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className="sticky top-0 z-50 w-full backdrop-blur-md transition-colors duration-300"
       style={{
         backgroundColor: "var(--nav-bg)",
@@ -103,18 +107,25 @@ export default function Header({
       }}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-6 lg:px-12">
-        {/* Logo */}
+        {/* Logo avec micro-interaction */}
         <Link
           href="/#accueil"
           onClick={(e) => handleNavClick(e, "/#accueil", "accueil")}
-          className="flex items-center text-2xl font-extrabold tracking-tight font-serif-custom transition-colors duration-300"
+          className="group flex items-center text-2xl font-extrabold tracking-tight font-serif-custom transition-colors duration-300"
           style={{ color: "var(--heading-color)" }}
         >
-          YN<span style={{ color: "var(--logo-dot)" }}>.</span>
+          <span>YN</span>
+          <motion.span
+            animate={{ scale: [1, 1.3, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ color: "var(--logo-dot)" }}
+          >
+            .
+          </motion.span>
         </Link>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav Links avec indicateur de glissement moderne */}
+        <nav className="hidden md:flex items-center gap-1 sm:gap-2">
           {navLinks.map((link) => {
             const active = isLinkActive(link.href, link.id);
             return (
@@ -122,16 +133,29 @@ export default function Header({
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href, link.id)}
-                className="text-sm font-medium transition-colors duration-200 py-1"
+                className="relative px-3.5 py-1.5 text-sm font-medium transition-colors duration-200 rounded-full"
                 style={{
                   color: active ? "var(--nav-text-active)" : "var(--nav-text)",
                   fontWeight: active ? "600" : undefined,
-                  borderBottom: active
-                    ? "2px solid var(--primary)"
-                    : "2px solid transparent",
                 }}
               >
-                {link.label}
+                {/* Active Sliding Background Pill */}
+                {active && (
+                  <motion.span
+                    layoutId="activeNavIndicator"
+                    className="absolute inset-0 rounded-full -z-10 shadow-xs"
+                    style={{
+                      backgroundColor: "var(--card)",
+                      border: "1px solid var(--border)",
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 30,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
               </Link>
             );
           })}
@@ -139,26 +163,24 @@ export default function Header({
 
         {/* Right: CV button + Theme toggle + Mobile menu */}
         <div className="flex items-center gap-3">
-          {/* CV Button */}
-          <button
+          {/* CV Button avec micro-interaction hover/tap */}
+          <motion.button
+            whileHover={{ scale: 1.03, y: -1 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => setCvModalOpen(true)}
-            className="hidden sm:inline-flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-semibold text-white rounded transition-all shadow-sm cursor-pointer"
+            className="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-shadow shadow-xs hover:shadow-md cursor-pointer"
             style={{ backgroundColor: "var(--btn-primary-bg)" }}
-            onMouseOver={(e) =>
-              (e.currentTarget.style.backgroundColor = "var(--btn-primary-hover)")
-            }
-            onMouseOut={(e) =>
-              (e.currentTarget.style.backgroundColor = "var(--btn-primary-bg)")
-            }
           >
             <Download size={15} />
             <span>Télécharger CV</span>
-          </button>
+          </motion.button>
 
-          {/* Theme Toggle Button */}
-          <button
+          {/* Theme Toggle Button avec rotation fluide */}
+          <motion.button
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.92, rotate: 180 }}
             onClick={toggleTheme}
-            className="p-2.5 rounded-lg border transition-all duration-300"
+            className="p-2.5 rounded-lg border transition-colors shadow-xs cursor-pointer"
             style={{
               backgroundColor: "var(--icon-bg)",
               borderColor: "var(--border)",
@@ -169,82 +191,120 @@ export default function Header({
             }
             title={isLight ? "Thème sombre" : "Thème clair"}
           >
-            {isLight ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
+            <motion.div
+              key={theme}
+              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {isLight ? <Moon size={18} /> : <Sun size={18} />}
+            </motion.div>
+          </motion.button>
 
           {/* Mobile Menu Toggle */}
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             className="md:hidden p-2 rounded transition-colors"
             style={{ color: "var(--nav-text)" }}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </motion.button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div
-          className="md:hidden px-6 py-5 space-y-3 border-b transition-colors duration-300"
-          style={{
-            backgroundColor: "var(--background)",
-            borderColor: "var(--nav-border)",
-          }}
-        >
-          <nav className="flex flex-col space-y-3">
-            {navLinks.map((link) => {
-              const active = isLinkActive(link.href, link.id);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-base font-medium py-1 transition-colors flex items-center justify-between"
-                  style={{
-                    color: active ? "var(--nav-text-active)" : "var(--nav-text)",
-                    fontWeight: active ? "600" : undefined,
-                  }}
-                  onClick={(e) => {
-                    handleNavClick(e, link.href, link.id);
-                    setMobileOpen(false);
-                  }}
-                >
-                  <span>{link.label}</span>
-                  {active && (
-                    <span
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: "var(--primary)" }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-            <div
-              className="pt-3"
-              style={{ borderTop: "1px solid var(--nav-border)" }}
+      {/* Animated Mobile Menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden md:hidden px-6 py-5 border-b transition-colors duration-300"
+            style={{
+              backgroundColor: "var(--background)",
+              borderColor: "var(--nav-border)",
+            }}
+          >
+            <motion.nav
+              initial="closed"
+              animate="open"
+              variants={{
+                open: {
+                  transition: { staggerChildren: 0.05, delayChildren: 0.05 },
+                },
+                closed: {},
+              }}
+              className="flex flex-col space-y-3"
             >
-              <button
-                onClick={() => {
-                  setMobileOpen(false);
-                  setCvModalOpen(true);
+              {navLinks.map((link) => {
+                const active = isLinkActive(link.href, link.id);
+                return (
+                  <motion.div
+                    key={link.href}
+                    variants={{
+                      open: { opacity: 1, x: 0 },
+                      closed: { opacity: 0, x: -10 },
+                    }}
+                  >
+                    <Link
+                      href={link.href}
+                      className="text-base font-medium py-1 transition-colors flex items-center justify-between"
+                      style={{
+                        color: active
+                          ? "var(--nav-text-active)"
+                          : "var(--nav-text)",
+                        fontWeight: active ? "600" : undefined,
+                      }}
+                      onClick={(e) => {
+                        handleNavClick(e, link.href, link.id);
+                        setMobileOpen(false);
+                      }}
+                    >
+                      <span>{link.label}</span>
+                      {active && (
+                        <motion.span
+                          layoutId="activeMobileDot"
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: "var(--primary)" }}
+                        />
+                      )}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+              <motion.div
+                variants={{
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 10 },
                 }}
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white rounded shadow-sm cursor-pointer"
-                style={{ backgroundColor: "var(--btn-primary-bg)" }}
+                className="pt-3"
+                style={{ borderTop: "1px solid var(--nav-border)" }}
               >
-                <Download size={15} />
-                <span>Télécharger CV</span>
-              </button>
-            </div>
-          </nav>
-        </div>
-      )}
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    setCvModalOpen(true);
+                  }}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white rounded-lg shadow-sm cursor-pointer"
+                  style={{ backgroundColor: "var(--btn-primary-bg)" }}
+                >
+                  <Download size={15} />
+                  <span>Télécharger CV</span>
+                </button>
+              </motion.div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* CV Password Protection Modal */}
       <CVPasswordModal
         isOpen={cvModalOpen}
         onClose={() => setCvModalOpen(false)}
       />
-    </header>
+    </motion.header>
   );
 }

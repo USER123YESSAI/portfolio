@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { sendContact } from "@/lib/api";
 
 export default function ContactForm() {
@@ -34,7 +35,7 @@ export default function ContactForm() {
   };
 
   const inputClass =
-    "w-full px-4 py-3 rounded-lg text-sm transition-all outline-none focus:ring-2 focus:ring-[var(--primary)]";
+    "w-full px-4 py-3 rounded-lg text-sm transition-all outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent";
 
   const inputStyle = {
     backgroundColor: "var(--bg-subtle)",
@@ -44,13 +45,24 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div
-        className="rounded-2xl p-8 sm:p-12 text-center space-y-5 shadow-sm transition-colors duration-300 animate-in fade-in zoom-in-95"
-        style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="rounded-2xl p-8 sm:p-12 text-center space-y-5 shadow-sm transition-colors duration-300"
+        style={{
+          backgroundColor: "var(--card)",
+          border: "1px solid var(--border)",
+        }}
       >
-        <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center bg-green-500/10 border border-green-500/20 text-green-500 shadow-inner">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1, rotate: [0, 15, 0] }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center bg-green-500/10 border border-green-500/20 text-green-500 shadow-inner"
+        >
           <CheckCircle size={32} />
-        </div>
+        </motion.div>
         <h3
           className="text-2xl font-bold font-serif-custom"
           style={{ color: "var(--heading-color)" }}
@@ -61,27 +73,37 @@ export default function ContactForm() {
           className="text-sm sm:text-base leading-relaxed max-w-md mx-auto"
           style={{ color: "var(--body-text)" }}
         >
-          Merci pour votre message. Je l&apos;ai bien reçu et je vous répondrai dans les plus brefs délais.
+          Merci pour votre message. Je l&apos;ai bien reçu et je vous répondrai
+          dans les plus brefs délais.
         </p>
         <div className="pt-2">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
             type="button"
             onClick={() => setStatus("idle")}
-            className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm transition-all hover:opacity-90 cursor-pointer"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg text-sm font-semibold text-white shadow-sm cursor-pointer"
             style={{ backgroundColor: "var(--primary)" }}
           >
             Envoyer un autre message
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <form
+    <motion.form
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       onSubmit={handleSubmit}
       className="rounded-2xl p-6 sm:p-10 space-y-6 shadow-sm transition-colors duration-300"
-      style={{ backgroundColor: "var(--card)", border: "1px solid var(--border)" }}
+      style={{
+        backgroundColor: "var(--card)",
+        border: "1px solid var(--border)",
+      }}
     >
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
@@ -162,17 +184,26 @@ export default function ContactForm() {
         />
       </div>
 
-      {status === "error" && (
-        <div className="flex items-center gap-2.5 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/30 dark:border-red-700 dark:text-red-400">
-          <AlertCircle size={18} className="shrink-0" />
-          <span>{errorMsg}</span>
-        </div>
-      )}
+      <AnimatePresence>
+        {status === "error" && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="flex items-center gap-2.5 px-4 py-3 rounded-lg text-sm font-medium bg-red-50 text-red-700 border border-red-200 dark:bg-red-900/30 dark:border-red-700 dark:text-red-400"
+          >
+            <AlertCircle size={18} className="shrink-0" />
+            <span>{errorMsg}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <button
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         type="submit"
         disabled={status === "loading"}
-        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 text-white font-semibold text-sm rounded shadow-sm transition-all disabled:opacity-50 cursor-pointer"
+        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 text-white font-semibold text-sm rounded-lg shadow-sm transition-all disabled:opacity-50 cursor-pointer"
         style={{ backgroundColor: "var(--primary)" }}
       >
         {status === "loading" ? (
@@ -186,7 +217,7 @@ export default function ContactForm() {
             <span>Envoyer le message</span>
           </>
         )}
-      </button>
-    </form>
+      </motion.button>
+    </motion.form>
   );
 }
