@@ -144,7 +144,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
             >
               <GraduationCap size={16} style={{ color: "var(--primary)" }} />
               <span>
-                Licence en Conception des Systèmes d’Information — ISI, Dakar
+                Licence en Conception des Systèmes d’Information — EPF Africa, Dakar
               </span>
             </motion.div>
           </motion.div>

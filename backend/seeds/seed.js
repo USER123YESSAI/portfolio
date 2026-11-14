@@ -47,7 +47,7 @@ const seed = async () => {
       },
       {
         cle: "hero_subtitle",
-        valeur: "Licence en Conception des Systèmes d’Information — ISI, Dakar",
+        valeur: "Licence en Conception des Systèmes d’Information — EPF Africa, Dakar",
       },
       {
         cle: "bio",
