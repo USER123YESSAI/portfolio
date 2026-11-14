@@ -380,7 +380,7 @@ export default function AdminSettingsPage() {
                     setSettings({ ...settings, about_text: e.target.value })
                   }
                   className={`${inputClass} resize-none`}
-                  placeholder="ex: Étudiant en Bachelor CSI 3 à l'EPF Africa Dakar, je conçois et développe des interfaces React soignées..."
+                  placeholder="ex: Étudiant en Licence à l'ISI Dakar, je conçois et développe des interfaces React soignées..."
                 />
               </div>
 

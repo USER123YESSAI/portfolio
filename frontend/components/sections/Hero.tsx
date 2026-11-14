@@ -111,7 +111,7 @@ export default function Hero({ settings }: HeroProps) {
               style={{ color: "var(--body-text)" }}
             >
               {settings.bio ||
-                "Jeune diplômé en Conception des Systèmes d’Information à EPF Africa, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile."}
+                "Jeune diplômé en Conception des Systèmes d’Information à l'ISI, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile."}
             </motion.p>
 
             {/* Action Buttons with Micro-interactions */}
@@ -268,7 +268,7 @@ export default function Hero({ settings }: HeroProps) {
                     className="text-[11px]"
                     style={{ color: "var(--body-text)" }}
                   >
-                    EPF Africa
+                    ISI
                   </div>
                 </div>
               </motion.div>

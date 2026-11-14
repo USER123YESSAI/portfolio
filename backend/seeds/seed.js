@@ -39,7 +39,7 @@ const seed = async () => {
       {
         cle: "site_description",
         valeur:
-          "Portfolio professionnel de Yessaïn Nanadoumadji, diplômé d'une Licence en Conception des Systèmes d’Information à EPF Africa, développeur full-stack passionné.",
+          "Portfolio professionnel de Yessaïn Nanadoumadji, diplômé d'une Licence en Conception des Systèmes d’Information à l'ISI, développeur full-stack passionné.",
       },
       {
         cle: "hero_title",
@@ -47,7 +47,7 @@ const seed = async () => {
       },
       {
         cle: "hero_subtitle",
-        valeur: "Licence en Conception des Systèmes d’Information — EPF Africa, Dakar",
+        valeur: "Licence en Conception des Systèmes d’Information — ISI, Dakar",
       },
       {
         cle: "bio",
@@ -86,7 +86,7 @@ const seed = async () => {
       {
         cle: "about_text",
         valeur:
-          "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
+          "Jeune diplômé en Conception des Systèmes d’Information à l'ISI de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
       },
       {
         cle: "about_languages",
@@ -194,7 +194,7 @@ const seed = async () => {
     await Education.bulkCreate([
       {
         intitule: "Bachelor Concepteur Développeur d'Applications (CSI 3)",
-        etablissement: "EPF Africa — Dakar",
+        etablissement: "ISI — Dakar",
         date_debut: "2023-09-01",
         date_fin: null,
         description:

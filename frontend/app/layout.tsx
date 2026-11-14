@@ -104,7 +104,7 @@ const jsonLd = {
       },
       alumniOf: {
         "@type": "EducationalOrganization",
-        name: "EPF Africa",
+        name: "ISI",
       },
       sameAs: [
         "https://github.com/YessainDev",

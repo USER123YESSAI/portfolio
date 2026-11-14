@@ -45,7 +45,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
     settings.about_title || "Un profil full stack dans le concret.";
   const description =
     settings.about_text ||
-    "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.";
+    "Jeune diplômé en Conception des Systèmes d’Information à l'ISI de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.";
   const languages =
     settings.about_languages || "Français (courant), Anglais technique";
   const location = settings.location || "Dakar, Sénégal";
@@ -144,7 +144,7 @@ export default function AboutSection({ settings }: AboutSectionProps) {
             >
               <GraduationCap size={16} style={{ color: "var(--primary)" }} />
               <span>
-                Licence en Conception des Systèmes d’Information — EPF Africa, Dakar
+                Licence en Conception des Systèmes d’Information — ISI, Dakar
               </span>
             </motion.div>
           </motion.div>

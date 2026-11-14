@@ -61,7 +61,7 @@ export default function Footer({ settings }: FooterProps) {
               YN<span style={{ color: "var(--logo-dot)" }}>.</span>
             </Link>
             <p className="text-sm" style={{ color: "var(--body-text)" }}>
-              Développeur Full-Stack & Étudiant à EPF Africa, Dakar
+              Développeur Full-Stack & Étudiant à l'ISI, Dakar
             </p>
           </div>
 

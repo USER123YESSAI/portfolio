@@ -5,8 +5,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   site_description:
     "Portfolio professionnel de Yessaïn Nanadoumadji, développeur full-stack. Découvrez mes projets, compétences et parcours.",
   hero_title: "Développeur Full-Stack",
-  hero_subtitle: "Licence en Conception des Systèmes d’Information — EPF Africa, Dakar",
-  bio: "Jeune diplômé en Conception des Systèmes d’Information à EPF Africa, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile.",
+  hero_subtitle: "Licence en Conception des Systèmes d’Information — ISI, Dakar",
+  bio: "Jeune diplômé en Conception des Systèmes d’Information à l'ISI, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile.",
   career_goal:
     "Recherche un stage ou une alternance en développement full-stack pour mettre en pratique mes compétences et contribuer à des projets innovants.",
   email: "nanadoumadjiyessain@gmail.com",
@@ -20,6 +20,6 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   about_photo: "/images/about.png",
   about_title: "Un profil full stack dans le concret.",
   about_text:
-    "Jeune diplômé en Conception des Systèmes d’Information à l'EPF Africa de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
+    "Jeune diplômé en Conception des Systèmes d’Information à l'ISI de Dakar, je conçois et développe des interfaces React dynamiques, des API REST performantes et des architectures robustes connectées à des bases de données relationnelles.",
   about_languages: "Français (courant), Anglais technique",
 };
