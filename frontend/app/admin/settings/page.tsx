@@ -194,15 +194,15 @@ export default function AdminSettingsPage() {
   const aboutPhotoUrl = getAssetUrl(settings.about_photo || settings.profile_photo);
 
   const inputClass =
-    "w-full px-3.5 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all";
+    "w-full px-3.5 py-2.5 bg-white border border-[#e2e8f0] rounded-lg text-sm text-[#0f172a] placeholder:text-gray-400 focus:outline-none focus:border-[#0ea5e9] transition-all";
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold font-serif-custom text-[#111827]">
+        <h1 className="text-3xl font-bold font-serif-custom text-[#0f172a]">
           Paramètres Généraux
         </h1>
-        <p className="text-[#4b5563] text-sm mt-1">
+        <p className="text-[#475569] text-sm mt-1">
           Personnalisez votre identité, vos textes, votre section À propos et vos photos.
         </p>
       </div>
@@ -226,23 +226,23 @@ export default function AdminSettingsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-[3px] border-[#1a3826] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-[3px] border-[#0ea5e9] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
         <div className="grid lg:grid-cols-3 gap-8 items-start">
           {/* Main Form (2 columns) */}
           <form onSubmit={handleSubmit} className="lg:col-span-2 space-y-6">
             {/* Section 1 : Site SEO & Title */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-[#e5dccb] pb-3 text-[#111827]">
-                <Globe size={18} className="text-[#1a3826]" />
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
+              <div className="flex items-center gap-2 border-b border-[#e2e8f0] pb-3 text-[#0f172a]">
+                <Globe size={18} className="text-[#0ea5e9]" />
                 <h2 className="font-bold text-lg font-serif-custom">
                   Identité du site (SEO)
                 </h2>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Titre du Site (balise Title)
                   </label>
                   <input
@@ -256,7 +256,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Description SEO
                   </label>
                   <input
@@ -276,16 +276,16 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Section 2 : Page d'Accueil & Bio */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-[#e5dccb] pb-3 text-[#111827]">
-                <User size={18} className="text-[#1a3826]" />
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
+              <div className="flex items-center gap-2 border-b border-[#e2e8f0] pb-3 text-[#0f172a]">
+                <User size={18} className="text-[#0ea5e9]" />
                 <h2 className="font-bold text-lg font-serif-custom">
                   Page d&apos;Accueil & Bio Hero
                 </h2>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Sous-titre Hero
                   </label>
                   <input
@@ -299,7 +299,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Localisation
                   </label>
                   <input
@@ -315,7 +315,7 @@ export default function AdminSettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Biographie principale (Hero)
                 </label>
                 <textarea
@@ -330,7 +330,7 @@ export default function AdminSettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Objectif professionnel / Citation (affiché en bas de l&apos;accueil)
                 </label>
                 <input
@@ -346,16 +346,16 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Section 3 : Section À Propos */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-[#e5dccb] pb-3 text-[#111827]">
-                <Sparkles size={18} className="text-[#1a3826]" />
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
+              <div className="flex items-center gap-2 border-b border-[#e2e8f0] pb-3 text-[#0f172a]">
+                <Sparkles size={18} className="text-[#0ea5e9]" />
                 <h2 className="font-bold text-lg font-serif-custom">
                   Section &quot;À Propos&quot;
                 </h2>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Titre d&apos;accroche
                 </label>
                 <input
@@ -370,7 +370,7 @@ export default function AdminSettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Texte de présentation détaillé
                 </label>
                 <textarea
@@ -385,7 +385,7 @@ export default function AdminSettingsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Langues maîtrisées
                 </label>
                 <input
@@ -401,16 +401,16 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Section 4 : Coordonnées & Réseaux Sociaux */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
-              <div className="flex items-center gap-2 border-b border-[#e5dccb] pb-3 text-[#111827]">
-                <Share2 size={18} className="text-[#1a3826]" />
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 sm:p-8 space-y-4 shadow-xs">
+              <div className="flex items-center gap-2 border-b border-[#e2e8f0] pb-3 text-[#0f172a]">
+                <Share2 size={18} className="text-[#0ea5e9]" />
                 <h2 className="font-bold text-lg font-serif-custom">
                   Coordonnées & Réseaux Sociaux
                 </h2>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Email de contact
                   </label>
                   <input
@@ -423,7 +423,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Téléphone
                   </label>
                   <input
@@ -438,7 +438,7 @@ export default function AdminSettingsPage() {
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Lien GitHub
                   </label>
                   <input
@@ -458,7 +458,7 @@ export default function AdminSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Lien LinkedIn
                   </label>
                   <input
@@ -485,7 +485,7 @@ export default function AdminSettingsPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center gap-2 px-8 py-3 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white font-semibold text-sm rounded-lg shadow-sm transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-[#0ea5e9] hover:bg-[#0284c7] disabled:opacity-50 text-white font-semibold text-sm rounded-lg shadow-sm transition-all"
               >
                 {submitting ? (
                   <>
@@ -505,12 +505,12 @@ export default function AdminSettingsPage() {
           {/* Right Column : Photos and CV Files */}
           <div className="space-y-6">
             {/* Profile Photo */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 space-y-4 shadow-xs text-center">
-              <h3 className="font-bold text-base font-serif-custom text-[#111827] border-b border-[#e5dccb] pb-3">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 space-y-4 shadow-xs text-center">
+              <h3 className="font-bold text-base font-serif-custom text-[#0f172a] border-b border-[#e2e8f0] pb-3">
                 Photo de Profil (Hero)
               </h3>
               <div className="flex justify-center py-2">
-                <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-[#e5dccb] bg-[#f3ece0]">
+                <div className="relative w-28 h-28 rounded-full overflow-hidden border-2 border-[#e2e8f0] bg-[#e0f2fe]">
                   {photoUrl ? (
                     <Image
                       src={photoUrl}
@@ -520,13 +520,13 @@ export default function AdminSettingsPage() {
                       sizes="112px"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-3xl font-bold font-serif-custom text-[#1a3826]">
+                    <div className="w-full h-full flex items-center justify-center text-3xl font-bold font-serif-custom text-[#0ea5e9]">
                       YN
                     </div>
                   )}
                 </div>
               </div>
-              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#111827] border border-[#e5dccb] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
+              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#0f172a] border border-[#e2e8f0] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
                 {photoUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {photoUploading ? "Upload en cours..." : "Changer la photo"}
@@ -545,12 +545,12 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* About Photo */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 space-y-4 shadow-xs text-center">
-              <h3 className="font-bold text-base font-serif-custom text-[#111827] border-b border-[#e5dccb] pb-3">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 space-y-4 shadow-xs text-center">
+              <h3 className="font-bold text-base font-serif-custom text-[#0f172a] border-b border-[#e2e8f0] pb-3">
                 Photo Section &quot;À Propos&quot;
               </h3>
               <div className="flex justify-center py-2">
-                <div className="relative w-28 h-36 rounded-2xl overflow-hidden border-2 border-[#e5dccb] bg-[#f3ece0]">
+                <div className="relative w-28 h-36 rounded-2xl overflow-hidden border-2 border-[#e2e8f0] bg-[#e0f2fe]">
                   {aboutPhotoUrl ? (
                     <Image
                       src={aboutPhotoUrl}
@@ -560,13 +560,13 @@ export default function AdminSettingsPage() {
                       sizes="112px"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-2xl font-bold font-serif-custom text-[#1a3826]">
+                    <div className="w-full h-full flex items-center justify-center text-2xl font-bold font-serif-custom text-[#0ea5e9]">
                       YN
                     </div>
                   )}
                 </div>
               </div>
-              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#111827] border border-[#e5dccb] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
+              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[#0f172a] border border-[#e2e8f0] text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
                 {aboutPhotoUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {aboutPhotoUploading ? "Upload en cours..." : "Changer la photo À propos"}
@@ -602,14 +602,14 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* CV PDF Upload */}
-            <div className="bg-white border border-[#e5dccb] rounded-xl p-6 space-y-4 shadow-xs">
-              <h3 className="font-bold text-base font-serif-custom text-[#111827] border-b border-[#e5dccb] pb-3">
+            <div className="bg-white border border-[#e2e8f0] rounded-xl p-6 space-y-4 shadow-xs">
+              <h3 className="font-bold text-base font-serif-custom text-[#0f172a] border-b border-[#e2e8f0] pb-3">
                 CV (Format PDF)
               </h3>
-              <div className="flex items-center gap-3 p-3 bg-[#f7f4ec] rounded-lg border border-[#e5dccb]">
-                <FileText size={24} className="text-[#1a3826] shrink-0" />
+              <div className="flex items-center gap-3 p-3 bg-[#f0f6fb] rounded-lg border border-[#e2e8f0]">
+                <FileText size={24} className="text-[#0ea5e9] shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-bold text-[#111827] truncate">
+                  <p className="text-xs font-bold text-[#0f172a] truncate">
                     {settings.cv_path
                       ? "CV enregistré"
                       : "Aucun CV uploadé"}
@@ -619,7 +619,7 @@ export default function AdminSettingsPage() {
                   </p>
                 </div>
               </div>
-              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#1a3826] hover:bg-[#142a1d] text-white text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
+              <label className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#0ea5e9] hover:bg-[#0284c7] text-white text-xs font-semibold rounded-lg cursor-pointer transition-all w-full shadow-xs">
                 {cvUploading ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
                 <span>
                   {cvUploading ? "Upload du CV..." : "Uploader un nouveau CV"}
@@ -634,8 +634,8 @@ export default function AdminSettingsPage() {
               </label>
 
               {/* CV Protection Password */}
-              <div className="pt-3 border-t border-[#e5dccb] space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827]">
+              <div className="pt-3 border-t border-[#e2e8f0] space-y-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a]">
                   Mot de passe d&apos;accès au CV
                 </label>
                 <input

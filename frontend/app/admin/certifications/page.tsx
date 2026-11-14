@@ -130,23 +130,23 @@ export default function AdminCertificationsPage() {
   };
 
   const inputClass =
-    "w-full px-3.5 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all";
+    "w-full px-3.5 py-2.5 bg-white border border-[#e2e8f0] rounded-lg text-sm text-[#0f172a] placeholder:text-gray-400 focus:outline-none focus:border-[#0ea5e9] transition-all";
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-serif-custom text-[#111827]">
+          <h1 className="text-3xl font-bold font-serif-custom text-[#0f172a]">
             Certifications & Diplômes
           </h1>
-          <p className="text-[#4b5563] text-sm mt-1">
+          <p className="text-[#475569] text-sm mt-1">
             Gérez vos certifications, agréments et justificatifs en ligne ({certifications.length} certification{certifications.length > 1 ? "s" : ""}).
           </p>
         </div>
         <button
           onClick={handleOpenCreate}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0ea5e9] hover:bg-[#0284c7] text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
         >
           <Plus size={18} />
           <span>Nouvelle Certification</span>
@@ -174,16 +174,16 @@ export default function AdminCertificationsPage() {
       {/* List */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-3 border-[#1a3826] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-[#0ea5e9] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : certifications.length === 0 ? (
-        <div className="bg-white border border-[#e5dccb] rounded-xl p-12 text-center text-gray-500">
+        <div className="bg-white border border-[#e2e8f0] rounded-xl p-12 text-center text-gray-500">
           <Award size={40} className="mx-auto mb-3 opacity-40" />
-          <p className="font-medium text-[#111827]">Aucune certification enregistrée.</p>
+          <p className="font-medium text-[#0f172a]">Aucune certification enregistrée.</p>
         </div>
       ) : (
-        <div className="bg-white border border-[#e5dccb] rounded-xl overflow-hidden shadow-xs">
-          <div className="divide-y divide-[#e5dccb]">
+        <div className="bg-white border border-[#e2e8f0] rounded-xl overflow-hidden shadow-xs">
+          <div className="divide-y divide-[#e2e8f0]">
             {certifications.map((cert) => (
               <div
                 key={cert.id}
@@ -198,10 +198,10 @@ export default function AdminCertificationsPage() {
                       {formatDate(cert.date_obtention)}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold font-serif-custom text-[#111827]">
+                  <h3 className="text-lg font-bold font-serif-custom text-[#0f172a]">
                     {cert.nom}
                   </h3>
-                  <p className="text-[#b45309] text-sm font-semibold">
+                  <p className="text-[#f59e0b] text-sm font-semibold">
                     {cert.organisme}
                   </p>
                   {cert.lien_justificatif && cert.lien_justificatif !== "#" && (
@@ -209,7 +209,7 @@ export default function AdminCertificationsPage() {
                       href={cert.lien_justificatif}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a3826] hover:underline mt-2"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0ea5e9] hover:underline mt-2"
                     >
                       <span>Voir le justificatif</span>
                       <ExternalLink size={13} />
@@ -220,7 +220,7 @@ export default function AdminCertificationsPage() {
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     onClick={() => handleOpenEdit(cert)}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-700 bg-white border border-[#e5dccb] hover:bg-gray-50 inline-flex items-center gap-1.5 transition-all"
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-700 bg-white border border-[#e2e8f0] hover:bg-gray-50 inline-flex items-center gap-1.5 transition-all"
                   >
                     <Pencil size={13} />
                     Modifier
@@ -242,9 +242,9 @@ export default function AdminCertificationsPage() {
       {/* Modal / Form */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white border border-[#e5dccb] rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl">
-            <div className="flex items-center justify-between pb-4 border-b border-[#e5dccb] mb-6">
-              <h2 className="text-xl font-bold font-serif-custom text-[#111827]">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 sm:p-8 max-w-lg w-full shadow-2xl">
+            <div className="flex items-center justify-between pb-4 border-b border-[#e2e8f0] mb-6">
+              <h2 className="text-xl font-bold font-serif-custom text-[#0f172a]">
                 {editingId
                   ? "Modifier la certification"
                   : "Nouvelle certification"}
@@ -259,7 +259,7 @@ export default function AdminCertificationsPage() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Nom de la Certification *
                 </label>
                 <input
@@ -275,7 +275,7 @@ export default function AdminCertificationsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Organisme certificateur *
                 </label>
                 <input
@@ -291,7 +291,7 @@ export default function AdminCertificationsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Date d&apos;obtention *
                 </label>
                 <input
@@ -306,7 +306,7 @@ export default function AdminCertificationsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Lien vers le justificatif / badge (URL)
                 </label>
                 <input
@@ -320,11 +320,11 @@ export default function AdminCertificationsPage() {
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#e5dccb]">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e2e8f0] text-sm font-semibold rounded-lg transition-all"
                 >
                   <X size={15} />
                   <span>Annuler</span>
@@ -332,7 +332,7 @@ export default function AdminCertificationsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0ea5e9] hover:bg-[#0284c7] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
                 >
                   {submitting ? (
                     <>

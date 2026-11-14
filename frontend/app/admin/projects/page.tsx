@@ -201,23 +201,23 @@ export default function AdminProjectsPage() {
   });
 
   const inputClass =
-    "w-full px-3.5 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] focus:ring-1 focus:ring-[#1a3826] transition-all";
+    "w-full px-3.5 py-2.5 bg-white border border-[#e2e8f0] rounded-lg text-sm text-[#0f172a] placeholder:text-gray-400 focus:outline-none focus:border-[#0ea5e9] focus:ring-1 focus:ring-[#0ea5e9] transition-all";
 
   return (
     <div className="space-y-8">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold font-serif-custom text-[#111827]">
+          <h1 className="text-3xl font-bold font-serif-custom text-[#0f172a]">
             Gestion des Projets
           </h1>
-          <p className="text-[#4b5563] text-sm mt-1">
+          <p className="text-[#475569] text-sm mt-1">
             Gérez vos réalisations, images, liens de démo et code source ({projects.length} projet{projects.length > 1 ? "s" : ""}).
           </p>
         </div>
         <button
           onClick={handleOpenCreate}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#0ea5e9] hover:bg-[#0284c7] text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
         >
           <Plus size={18} />
           <span>Nouveau Projet</span>
@@ -254,7 +254,7 @@ export default function AdminProjectsPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Rechercher un projet par titre ou description..."
-            className="w-full pl-10 pr-10 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] placeholder:text-gray-400 focus:outline-none focus:border-[#1a3826] transition-all shadow-xs"
+            className="w-full pl-10 pr-10 py-2.5 bg-white border border-[#e2e8f0] rounded-lg text-sm text-[#0f172a] placeholder:text-gray-400 focus:outline-none focus:border-[#0ea5e9] transition-all shadow-xs"
           />
           {search && (
             <button
@@ -270,7 +270,7 @@ export default function AdminProjectsPage() {
         <select
           value={filterCat}
           onChange={(e) => setFilterCat(e.target.value)}
-          className="px-4 py-2.5 bg-white border border-[#e5dccb] rounded-lg text-sm text-[#111827] focus:outline-none focus:border-[#1a3826] shadow-xs"
+          className="px-4 py-2.5 bg-white border border-[#e2e8f0] rounded-lg text-sm text-[#0f172a] focus:outline-none focus:border-[#0ea5e9] shadow-xs"
         >
           <option value="">Toutes les catégories</option>
           {categories.map((cat) => (
@@ -284,12 +284,12 @@ export default function AdminProjectsPage() {
       {/* Projects Grid */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="w-8 h-8 border-3 border-[#1a3826] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-3 border-[#0ea5e9] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : filteredProjects.length === 0 ? (
-        <div className="bg-white border border-[#e5dccb] rounded-xl p-12 text-center text-gray-500">
+        <div className="bg-white border border-[#e2e8f0] rounded-xl p-12 text-center text-gray-500">
           <FolderOpen size={40} className="mx-auto mb-3 opacity-50" />
-          <p className="font-medium text-[#111827]">Aucun projet ne correspond à votre recherche.</p>
+          <p className="font-medium text-[#0f172a]">Aucun projet ne correspond à votre recherche.</p>
           <p className="text-xs text-gray-400 mt-1">Ajoutez un projet ou réinitialisez les filtres.</p>
         </div>
       ) : (
@@ -301,7 +301,7 @@ export default function AdminProjectsPage() {
             return (
               <div
                 key={project.id}
-                className={`bg-white border border-[#e5dccb] rounded-xl overflow-hidden shadow-xs flex flex-col justify-between ${
+                className={`bg-white border border-[#e2e8f0] rounded-xl overflow-hidden shadow-xs flex flex-col justify-between ${
                   project.archive ? "opacity-60 bg-gray-50" : ""
                 }`}
               >
@@ -317,16 +317,16 @@ export default function AdminProjectsPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       />
                     ) : (
-                      <div className="w-full h-full bg-[#1a3826] flex items-center justify-center text-white text-2xl font-bold font-serif-custom">
+                      <div className="w-full h-full bg-[#0ea5e9] flex items-center justify-center text-white text-2xl font-bold font-serif-custom">
                         {project.titre.charAt(0)}
                       </div>
                     )}
                     <div className="absolute top-3 left-3 flex gap-2">
-                      <span className="bg-[#1a3826] text-white px-2.5 py-0.5 rounded text-xs font-semibold">
+                      <span className="bg-[#0ea5e9] text-white px-2.5 py-0.5 rounded text-xs font-semibold">
                         {project.categorie}
                       </span>
                       {project.mis_en_avant && (
-                        <span className="bg-[#b45309] text-white px-2 py-0.5 rounded text-xs font-semibold inline-flex items-center gap-1">
+                        <span className="bg-[#f59e0b] text-white px-2 py-0.5 rounded text-xs font-semibold inline-flex items-center gap-1">
                           <Star size={12} className="fill-white" />
                           Featured
                         </span>
@@ -336,17 +336,17 @@ export default function AdminProjectsPage() {
 
                   {/* Body */}
                   <div className="p-5">
-                    <h3 className="text-lg font-bold font-serif-custom text-[#111827] mb-1.5">
+                    <h3 className="text-lg font-bold font-serif-custom text-[#0f172a] mb-1.5">
                       {project.titre}
                     </h3>
-                    <p className="text-sm text-[#4b5563] line-clamp-2 mb-3">
+                    <p className="text-sm text-[#475569] line-clamp-2 mb-3">
                       {project.description}
                     </p>
                     <div className="flex flex-wrap gap-1 mb-4">
                       {techs.slice(0, 4).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 bg-[#f3ece0] text-[#111827] rounded text-xs font-mono"
+                          className="px-2 py-0.5 bg-[#e0f2fe] text-[#0f172a] rounded text-xs font-mono"
                         >
                           {tech}
                         </span>
@@ -361,14 +361,14 @@ export default function AdminProjectsPage() {
                 </div>
 
                 {/* Footer action buttons */}
-                <div className="px-5 py-3.5 border-t border-[#e5dccb] bg-[#f7f4ec]/40 flex items-center justify-between">
+                <div className="px-5 py-3.5 border-t border-[#e2e8f0] bg-[#f0f6fb] flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {project.lien_demo && project.lien_demo !== "#" && (
                       <a
                         href={project.lien_demo}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-[#1a3826] hover:underline inline-flex items-center gap-1 font-semibold"
+                        className="text-xs text-[#0ea5e9] hover:underline inline-flex items-center gap-1 font-semibold"
                       >
                         <ExternalLink size={13} />
                         Démo
@@ -379,14 +379,14 @@ export default function AdminProjectsPage() {
                     <button
                       onClick={() => handleArchive(project.id)}
                       title={project.archive ? "Désarchiver" : "Archiver"}
-                      className="p-1.5 rounded text-gray-600 hover:bg-white hover:text-[#b45309] border border-transparent hover:border-[#e5dccb] transition-all"
+                      className="p-1.5 rounded text-gray-600 hover:bg-white hover:text-[#f59e0b] border border-transparent hover:border-[#e2e8f0] transition-all"
                     >
                       <Archive size={15} />
                     </button>
                     <button
                       onClick={() => handleOpenEdit(project)}
                       title="Modifier"
-                      className="p-1.5 rounded text-gray-700 hover:bg-white hover:text-[#1a3826] border border-transparent hover:border-[#e5dccb] transition-all"
+                      className="p-1.5 rounded text-gray-700 hover:bg-white hover:text-[#0ea5e9] border border-transparent hover:border-[#e2e8f0] transition-all"
                     >
                       <Pencil size={15} />
                     </button>
@@ -408,9 +408,9 @@ export default function AdminProjectsPage() {
       {/* Modal / Formulaire d'édition et création */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-          <div className="bg-white border border-[#e5dccb] rounded-2xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-4 border-b border-[#e5dccb] mb-6">
-              <h2 className="text-xl font-bold font-serif-custom text-[#111827]">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-[#e2e8f0] mb-6">
+              <h2 className="text-xl font-bold font-serif-custom text-[#0f172a]">
                 {editingId ? "Modifier le projet" : "Nouveau projet"}
               </h2>
               <button
@@ -424,7 +424,7 @@ export default function AdminProjectsPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Titre du projet *
                   </label>
                   <input
@@ -439,7 +439,7 @@ export default function AdminProjectsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Catégorie *
                   </label>
                   <select
@@ -459,7 +459,7 @@ export default function AdminProjectsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Description *
                 </label>
                 <textarea
@@ -476,7 +476,7 @@ export default function AdminProjectsPage() {
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Technologies (séparées par des virgules) *
                   </label>
                   <input
@@ -491,7 +491,7 @@ export default function AdminProjectsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Date de réalisation
                   </label>
                   <input
@@ -507,7 +507,7 @@ export default function AdminProjectsPage() {
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Lien démo live (URL)
                   </label>
                   <input
@@ -521,7 +521,7 @@ export default function AdminProjectsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                     Lien GitHub (URL)
                   </label>
                   <input
@@ -537,7 +537,7 @@ export default function AdminProjectsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#111827] mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
                   Image / capture d&apos;écran
                 </label>
                 <input
@@ -546,43 +546,43 @@ export default function AdminProjectsPage() {
                   onChange={(e) =>
                     setImageFile(e.target.files?.[0] || null)
                   }
-                  className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#f3ece0] file:text-[#1a3826] hover:file:bg-[#e5dccb] cursor-pointer"
+                  className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#e0f2fe] file:text-[#0ea5e9] hover:file:bg-[#e2e8f0] cursor-pointer"
                 />
               </div>
 
               <div className="flex items-center gap-6 pt-2">
-                <label className="flex items-center gap-2 text-sm text-[#111827] cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-[#0f172a] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.mis_en_avant}
                     onChange={(e) =>
                       setForm({ ...form, mis_en_avant: e.target.checked })
                     }
-                    className="rounded border-[#e5dccb] text-[#1a3826] focus:ring-[#1a3826]"
+                    className="rounded border-[#e2e8f0] text-[#0ea5e9] focus:ring-[#0ea5e9]"
                   />
                   <span className="inline-flex items-center gap-1.5">
                     <Star size={14} className="fill-amber-400 text-amber-500" />
                     <span>Mettre en avant (Featured)</span>
                   </span>
                 </label>
-                <label className="flex items-center gap-2 text-sm text-[#111827] cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-[#0f172a] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.archive}
                     onChange={(e) =>
                       setForm({ ...form, archive: e.target.checked })
                     }
-                    className="rounded border-[#e5dccb] text-[#1a3826] focus:ring-[#1a3826]"
+                    className="rounded border-[#e2e8f0] text-[#0ea5e9] focus:ring-[#0ea5e9]"
                   />
                   <span>Archiver le projet</span>
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#e5dccb]">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#e2e8f0]">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e5dccb] text-sm font-semibold rounded-lg transition-all"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-white hover:bg-gray-100 text-gray-700 border border-[#e2e8f0] text-sm font-semibold rounded-lg transition-all"
                 >
                   <X size={15} />
                   <span>Annuler</span>
@@ -590,7 +590,7 @@ export default function AdminProjectsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#1a3826] hover:bg-[#142a1d] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0ea5e9] hover:bg-[#0284c7] disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-all shadow-xs"
                 >
                   {submitting ? (
                     <>
