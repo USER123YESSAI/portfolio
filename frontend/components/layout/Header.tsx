@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X, Moon, Sun, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import CVPasswordModal from "@/components/ui/CVPasswordModal";
+import Magnetic from "@/components/gsap/Magnetic";
 
 const navLinks = [
   { href: "/#accueil", label: "Accueil", id: "accueil" },
@@ -108,21 +109,23 @@ export default function Header({
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-6 lg:px-12">
         {/* Logo avec micro-interaction */}
-        <Link
-          href="/#accueil"
-          onClick={(e) => handleNavClick(e, "/#accueil", "accueil")}
-          className="group flex items-center text-2xl font-extrabold tracking-tight font-serif-custom transition-colors duration-300"
-          style={{ color: "var(--heading-color)" }}
-        >
-          <span>YN</span>
-          <motion.span
-            animate={{ scale: [1, 1.3, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            style={{ color: "var(--logo-dot)" }}
+        <Magnetic strength={0.2}>
+          <Link
+            href="/#accueil"
+            onClick={(e) => handleNavClick(e, "/#accueil", "accueil")}
+            className="group flex items-center text-2xl font-extrabold tracking-tight font-serif-custom transition-colors duration-300"
+            style={{ color: "var(--heading-color)" }}
           >
-            .
-          </motion.span>
-        </Link>
+            <span>YN</span>
+            <motion.span
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              style={{ color: "var(--logo-dot)" }}
+            >
+              .
+            </motion.span>
+          </Link>
+        </Magnetic>
 
         {/* Desktop Nav Links avec indicateur de glissement moderne */}
         <nav className="hidden md:flex items-center gap-1 sm:gap-2">
@@ -163,17 +166,19 @@ export default function Header({
 
         {/* Right: CV button + Theme toggle + Mobile menu */}
         <div className="flex items-center gap-3">
-          {/* CV Button avec micro-interaction hover/tap */}
-          <motion.button
-            whileHover={{ scale: 1.03, y: -1 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => setCvModalOpen(true)}
-            className="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-shadow shadow-xs hover:shadow-md cursor-pointer"
-            style={{ backgroundColor: "var(--btn-primary-bg)" }}
-          >
-            <Download size={15} />
-            <span>Télécharger CV</span>
-          </motion.button>
+          {/* CV Button avec micro-interaction hover/tap + GSAP Magnetic */}
+          <Magnetic strength={0.25} className="hidden sm:inline-block">
+            <motion.button
+              whileHover={{ scale: 1.03, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => setCvModalOpen(true)}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-shadow shadow-xs hover:shadow-md cursor-pointer"
+              style={{ backgroundColor: "var(--btn-primary-bg)" }}
+            >
+              <Download size={15} />
+              <span>Télécharger CV</span>
+            </motion.button>
+          </Magnetic>
 
           {/* Theme Toggle Button avec rotation fluide */}
           <motion.button

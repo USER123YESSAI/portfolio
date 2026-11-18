@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import InteractiveBackground3D from "@/components/three/InteractiveBackground3D";
 
 export default function MotionBackground() {
   const shouldReduceMotion = useReducedMotion();
@@ -10,10 +11,14 @@ export default function MotionBackground() {
   }
 
   return (
-    <div
-      aria-hidden="true"
-      className="fixed inset-0 overflow-hidden pointer-events-none -z-10 select-none"
-    >
+    <>
+      {/* Three.js Interactive Particle & Constellation Canvas */}
+      <InteractiveBackground3D />
+
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 overflow-hidden pointer-events-none -z-10 select-none"
+      >
       {/* Radiant Floating Orb 1 (Top Left) */}
       <motion.div
         className="absolute -top-32 -left-32 w-96 h-96 sm:w-[520px] sm:h-[520px] rounded-full blur-3xl opacity-35 dark:opacity-25"
@@ -123,5 +128,6 @@ export default function MotionBackground() {
         ✦
       </motion.div>
     </div>
+    </>
   );
 }

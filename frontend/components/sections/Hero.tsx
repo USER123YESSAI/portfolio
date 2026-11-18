@@ -7,6 +7,9 @@ import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Github, Linkedin } from "@/components/ui/SocialIcons";
 import { getAssetUrl } from "@/lib/api";
+import Magnetic from "@/components/gsap/Magnetic";
+import TiltCard from "@/components/gsap/TiltCard";
+import Hero3DIcosahedron from "@/components/three/Hero3DIcosahedron";
 import type { SiteSettings } from "@/types";
 
 interface HeroProps {
@@ -114,81 +117,91 @@ export default function Hero({ settings }: HeroProps) {
                 "Jeune diplômé en Conception des Systèmes d’Information à l'ISI, Dakar. Je conçois des applications web modernes, du back-end robuste aux interfaces soignées — avec le souci du code propre, maintenable et utile."}
             </motion.p>
 
-            {/* Action Buttons with Micro-interactions */}
+            {/* Action Buttons with GSAP Magnetic Interaction */}
             <motion.div
               variants={itemVariants}
               className="flex flex-wrap items-center gap-3 pt-2"
             >
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link
-                  href="/projects"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold text-sm rounded-lg shadow-sm transition-all hover:shadow-lg group cursor-pointer"
-                  style={{ backgroundColor: "var(--btn-primary-bg)" }}
-                >
-                  <span>Voir mes projets</span>
-                  <ArrowRight
-                    size={16}
-                    className="group-hover:translate-x-1.5 transition-transform duration-300"
-                  />
-                </Link>
-              </motion.div>
+              <Magnetic strength={0.25}>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 text-white font-semibold text-sm rounded-lg shadow-sm transition-all hover:shadow-lg group cursor-pointer"
+                    style={{ backgroundColor: "var(--btn-primary-bg)" }}
+                  >
+                    <span>Voir mes projets</span>
+                    <ArrowRight
+                      size={16}
+                      className="group-hover:translate-x-1.5 transition-transform duration-300"
+                    />
+                  </Link>
+                </motion.div>
+              </Magnetic>
 
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent font-semibold text-sm rounded-lg transition-all hover:bg-white/10 cursor-pointer"
-                  style={{
-                    color: "var(--btn-secondary-text)",
-                    border: "1px solid var(--btn-secondary-border)",
-                  }}
-                >
-                  <Mail size={16} />
-                  <span>Me contacter</span>
-                </Link>
-              </motion.div>
+              <Magnetic strength={0.25}>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent font-semibold text-sm rounded-lg transition-all hover:bg-white/10 cursor-pointer"
+                    style={{
+                      color: "var(--btn-secondary-text)",
+                      border: "1px solid var(--btn-secondary-border)",
+                    }}
+                  >
+                    <Mail size={16} />
+                    <span>Me contacter</span>
+                  </Link>
+                </motion.div>
+              </Magnetic>
             </motion.div>
 
-            {/* Social Links Row with lift effects */}
+            {/* Social Links Row with GSAP Magnetic effects */}
             <motion.div
               variants={itemVariants}
               className="flex items-center gap-6 pt-2 text-sm font-medium"
               style={{ color: "var(--body-text)" }}
             >
-              <motion.a
-                whileHover={{ y: -3, scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                href={githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
-              >
-                <Github size={17} />
-                <span>GitHub</span>
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                href={linkedinUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
-              >
-                <Linkedin size={17} />
-                <span>LinkedIn</span>
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -3, scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                href={`mailto:${emailAddress}`}
-                className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
-              >
-                <Mail size={17} />
-                <span>Email</span>
-              </motion.a>
+              <Magnetic strength={0.35}>
+                <motion.a
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
+                >
+                  <Github size={17} />
+                  <span>GitHub</span>
+                </motion.a>
+              </Magnetic>
+              <Magnetic strength={0.35}>
+                <motion.a
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
+                >
+                  <Linkedin size={17} />
+                  <span>LinkedIn</span>
+                </motion.a>
+              </Magnetic>
+              <Magnetic strength={0.35}>
+                <motion.a
+                  whileHover={{ y: -3, scale: 1.08 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={`mailto:${emailAddress}`}
+                  className="flex items-center gap-1.5 transition-colors hover:text-[var(--primary)]"
+                >
+                  <Mail size={17} />
+                  <span>Email</span>
+                </motion.a>
+              </Magnetic>
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Photo Card with floating motion effect */}
+          {/* Right Column: Photo Card with Three.js 3D Icosahedron & GSAP Tilt */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 30 }}
@@ -196,6 +209,14 @@ export default function Hero({ settings }: HeroProps) {
               transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
               className="relative w-72 h-80 sm:w-80 sm:h-96"
             >
+              {/* Three.js 3D Geometric Orbit floating behind photo */}
+              <div
+                aria-hidden="true"
+                className="absolute -inset-16 sm:-inset-24 pointer-events-none -z-10"
+              >
+                <Hero3DIcosahedron />
+              </div>
+
               {/* Subtle background frame offset with gentle organic float */}
               <motion.div
                 animate={
@@ -215,23 +236,23 @@ export default function Hero({ settings }: HeroProps) {
                 style={{ backgroundColor: "var(--card)" }}
               />
 
-              {/* Photo Image Card with gentle hover perspective */}
-              <motion.div
-                whileHover={shouldReduceMotion ? {} : { y: -6, scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl"
-                style={{ border: "1px solid var(--border)" }}
-              >
-                <Image
-                  src={imgSrc}
-                  alt="Yessaïn Nanadoumadji"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 288px, 320px"
-                  priority
-                  onError={() => setImgSrc("/images/profil.png")}
-                />
-              </motion.div>
+              {/* Photo Image Card with GSAP 3D Tilt perspective */}
+              <TiltCard maxTilt={8} className="w-full h-full rounded-2xl">
+                <div
+                  className="relative w-full h-full rounded-2xl overflow-hidden shadow-xl"
+                  style={{ border: "1px solid var(--border)" }}
+                >
+                  <Image
+                    src={imgSrc}
+                    alt="Yessaïn Nanadoumadji"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 288px, 320px"
+                    priority
+                    onError={() => setImgSrc("/images/profil.png")}
+                  />
+                </div>
+              </TiltCard>
 
               {/* Floating Bottom-Left Location Card with gentle periodic float */}
               <motion.div

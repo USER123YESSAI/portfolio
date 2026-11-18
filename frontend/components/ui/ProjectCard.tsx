@@ -7,6 +7,7 @@ import { ExternalLink, ArrowRight, Star } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { getAssetUrl } from "@/lib/api";
 import { parseTechnologies } from "@/lib/utils";
+import TiltCard from "@/components/gsap/TiltCard";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
@@ -38,28 +39,20 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       : null;
 
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      whileHover={
-        shouldReduceMotion
-          ? {}
-          : {
-              y: -8,
-              boxShadow: "0 22px 40px -12px rgba(0,0,0,0.14)",
-              transition: { duration: 0.25 },
-            }
-      }
-      className="rounded-2xl overflow-hidden shadow-xs transition-shadow duration-300 flex flex-col h-full group"
-      style={{
-        backgroundColor: "var(--card)",
-        border: "1px solid var(--border)",
-      }}
-    >
+    <TiltCard maxTilt={5} className="h-full">
+      <motion.article
+        layout
+        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-shadow duration-300 flex flex-col h-full group"
+        style={{
+          backgroundColor: "var(--card)",
+          border: "1px solid var(--border)",
+        }}
+      >
       {/* Top Image Preview (cliquable vers Détails) */}
       <Link
         href={`/projects/${project.id}`}
@@ -207,5 +200,6 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </div>
       </div>
     </motion.article>
+    </TiltCard>
   );
 }
