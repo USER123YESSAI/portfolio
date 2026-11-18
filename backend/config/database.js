@@ -1,9 +1,21 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
+// Détection automatique du dialecte selon l'URL de connexion ou les variables
+const rawUrl = process.env.DATABASE_URL || "";
+const isPostgres =
+  rawUrl.startsWith("postgres://") ||
+  rawUrl.startsWith("postgresql://") ||
+  rawUrl.includes("supabase.co") ||
+  rawUrl.includes("neon.tech") ||
+  process.env.DB_DIALECT === "postgres" ||
+  process.env.DB_PORT === "5432";
+
+const dialect = isPostgres ? "postgres" : "mysql";
+
 // Configuration des options communes Sequelize
 const commonOptions = {
-  dialect: "mysql",
+  dialect,
   logging: process.env.NODE_ENV === "development" ? false : false,
   pool: {
     max: 10,
@@ -19,24 +31,23 @@ const commonOptions = {
   },
 };
 
-// Détection de la nécessité du chiffrement SSL (ex: TiDB Cloud, Aiven MySQL ou configuration explicite)
+// Détection de la nécessité du chiffrement SSL (Supabase, TiDB Cloud, Aiven MySQL ou configuration explicite)
 const isTiDB =
-  (process.env.DATABASE_URL && process.env.DATABASE_URL.includes("tidbcloud.com")) ||
+  rawUrl.includes("tidbcloud.com") ||
   (process.env.DB_HOST && process.env.DB_HOST.includes("tidbcloud.com"));
 
 const shouldUseSSL =
+  isPostgres ||
   process.env.DB_SSL === "true" ||
   isTiDB ||
-  (process.env.DATABASE_URL &&
-    (process.env.DATABASE_URL.includes("aivencloud.com") ||
-      process.env.DATABASE_URL.includes("ssl-mode=REQUIRED") ||
-      process.env.DATABASE_URL.includes("ssl="))) ||
+  rawUrl.includes("aivencloud.com") ||
+  rawUrl.includes("sslmode=require") ||
+  rawUrl.includes("ssl-mode=REQUIRED") ||
   (process.env.DB_HOST && process.env.DB_HOST.includes("aivencloud.com"));
 
 const dialectOptions = shouldUseSSL
   ? {
       ssl: {
-        minVersion: "TLSv1.2",
         require: true,
         rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED === "true",
       },
@@ -46,17 +57,17 @@ const dialectOptions = shouldUseSSL
 let sequelize;
 
 if (process.env.DATABASE_URL) {
-  // Initialisation via URI complète (ex: mysql://user:pwd@gateway01.eu-central-1.prod.aws.tidbcloud.com:4000/portfolio)
+  // Initialisation via URI complète (Supabase, Neon, TiDB ou Aiven)
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     ...commonOptions,
     dialectOptions,
   });
 } else {
   // Initialisation via variables individuelles
-  const defaultPort = isTiDB ? 4000 : 3306;
+  const defaultPort = isPostgres ? 5432 : isTiDB ? 4000 : 3306;
   sequelize = new Sequelize(
     process.env.DB_NAME || "portfolio",
-    process.env.DB_USER || "root",
+    process.env.DB_USER || (isPostgres ? "postgres" : "root"),
     process.env.DB_PASSWORD || "",
     {
       ...commonOptions,
