@@ -27,7 +27,7 @@ const Project = sequelize.define(
       allowNull: true,
     },
     image: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     lien_demo: {

@@ -28,7 +28,7 @@ export default function HomePageClient({
 
   // Synchronisation dynamique côté client pour garantir l'affichage immédiat des mises à jour admin
   useEffect(() => {
-    getSettings()
+    getSettings(true)
       .then((freshSettings) => {
         if (freshSettings && Object.keys(freshSettings).length > 0) {
           setSettings((prev) => ({ ...prev, ...freshSettings }));

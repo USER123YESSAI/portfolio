@@ -97,9 +97,13 @@ const uploadProfile = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Aucun fichier reçu." });
   }
 
-  const profilePath = `/uploads/profile/${req.file.filename}`;
-  await Setting.upsert({ cle: "profile_photo", valeur: profilePath });
-  res.json({ message: "Photo de profil mise à jour.", profile_photo: profilePath });
+  // Encodage en Base64 persistant : sauvegarde l'image directement dans la base de données
+  // Cela empêche l'effacement de l'image lors des redémarrages de Render (système de fichiers éphémère)
+  const fileBuffer = fs.readFileSync(req.file.path);
+  const profileDataUrl = `data:${req.file.mimetype};base64,${fileBuffer.toString("base64")}`;
+
+  await Setting.upsert({ cle: "profile_photo", valeur: profileDataUrl });
+  res.json({ message: "Photo de profil mise à jour.", profile_photo: profileDataUrl });
 });
 
 const uploadAboutPhoto = asyncHandler(async (req, res) => {
@@ -107,9 +111,12 @@ const uploadAboutPhoto = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Aucun fichier reçu." });
   }
 
-  const aboutPath = `/uploads/profile/${req.file.filename}`;
-  await Setting.upsert({ cle: "about_photo", valeur: aboutPath });
-  res.json({ message: "Photo À propos mise à jour.", about_photo: aboutPath });
+  // Encodage en Base64 persistant
+  const fileBuffer = fs.readFileSync(req.file.path);
+  const aboutDataUrl = `data:${req.file.mimetype};base64,${fileBuffer.toString("base64")}`;
+
+  await Setting.upsert({ cle: "about_photo", valeur: aboutDataUrl });
+  res.json({ message: "Photo À propos mise à jour.", about_photo: aboutDataUrl });
 });
 
 module.exports = {

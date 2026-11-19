@@ -1,3 +1,4 @@
+const fs = require("fs");
 const { Project } = require("../models");
 const asyncHandler = require("../utils/asyncHandler");
 
@@ -72,7 +73,14 @@ const getAdminById = asyncHandler(async (req, res) => {
 
 const parseProjectData = (body, file) => {
   const data = { ...body };
-  if (file) data.image = `/uploads/projects/${file.filename}`;
+  if (file) {
+    try {
+      const fileBuffer = fs.readFileSync(file.path);
+      data.image = `data:${file.mimetype};base64,${fileBuffer.toString("base64")}`;
+    } catch {
+      data.image = `/uploads/projects/${file.filename}`;
+    }
+  }
   if (typeof data.technologies === "string") {
     try {
       data.technologies = JSON.parse(data.technologies);
