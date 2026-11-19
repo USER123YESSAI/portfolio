@@ -64,7 +64,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             src={imgSrc}
             alt={project.titre}
             fill
-            className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+            className="object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             onError={() => {
               if (project.titre.toLowerCase().includes("commerce")) {

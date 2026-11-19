@@ -341,7 +341,7 @@ export default function AdminProjectsPage() {
                         src={imageUrl}
                         alt={project.titre}
                         fill
-                        className="object-cover"
+                        className="object-cover object-top"
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       />
                     ) : (
@@ -600,7 +600,7 @@ export default function AdminProjectsPage() {
                           src={getAssetUrl(img) || img}
                           alt={`Aperçu ${idx + 1}`}
                           fill
-                          className="object-cover"
+                          className="object-cover object-top"
                         />
                         {idx === 0 && (
                           <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
@@ -635,7 +635,7 @@ export default function AdminProjectsPage() {
                             src={objectUrl}
                             alt={`Nouvelle ${idx + 1}`}
                             fill
-                            className="object-cover"
+                            className="object-cover object-top"
                           />
                           {isMain && (
                             <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
