@@ -122,7 +122,7 @@ const start = async () => {
     await sequelize.sync();
     console.log("Modèles synchronisés.");
 
-    // Migration automatique sécurisée des colonnes manquantes (ex: 'images' dans la table projects)
+    // Migration automatique sécurisée des colonnes manquantes ou de types limités
     try {
       const qi = sequelize.getQueryInterface();
       const tableDesc = await qi.describeTable("projects").catch(() => null);
@@ -135,8 +135,16 @@ const start = async () => {
         });
         console.log("Colonne 'images' ajoutée avec succès !");
       }
+
+      // Élargissement des colonnes de liens vers TEXT pour autoriser les URLs de toute taille (anti-crash VARCHAR(500))
+      await sequelize.query(`ALTER TABLE "projects" ALTER COLUMN "lien_demo" TYPE TEXT;`).catch(() => null);
+      await sequelize.query(`ALTER TABLE "projects" ALTER COLUMN "lien_github" TYPE TEXT;`).catch(() => null);
+      await sequelize.query(`ALTER TABLE "certifications" ALTER COLUMN "lien_justificatif" TYPE TEXT;`).catch(() => null);
+      await sequelize.query(`ALTER TABLE projects MODIFY lien_demo TEXT;`).catch(() => null);
+      await sequelize.query(`ALTER TABLE projects MODIFY lien_github TEXT;`).catch(() => null);
+      await sequelize.query(`ALTER TABLE certifications MODIFY lien_justificatif TEXT;`).catch(() => null);
     } catch (migErr) {
-      console.log("Info migration colonne images :", migErr.message);
+      console.log("Info migration colonnes :", migErr.message);
     }
 
     // Initialisation automatique si la base est neuve

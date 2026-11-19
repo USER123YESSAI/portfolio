@@ -36,11 +36,11 @@ const Project = sequelize.define(
       defaultValue: [],
     },
     lien_demo: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     lien_github: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     date_realisation: {

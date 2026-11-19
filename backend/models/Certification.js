@@ -22,7 +22,7 @@ const Certification = sequelize.define(
       allowNull: false,
     },
     lien_justificatif: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
   },

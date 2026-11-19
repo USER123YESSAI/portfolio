@@ -221,7 +221,15 @@ const create = asyncHandler(async (req, res) => {
   try {
     project = await Project.create(data);
   } catch (err) {
-    console.error("Tentative création sans colonne 'images' :", err.message);
+    console.error("Erreur création projet (fallback sécurisé) :", err.message);
+    if (err.message && (err.message.includes("varying(500)") || err.message.includes("value too long"))) {
+      if (data.lien_demo && data.lien_demo.length > 500) {
+        data.lien_demo = data.lien_demo.slice(0, 500);
+      }
+      if (data.lien_github && data.lien_github.length > 500) {
+        data.lien_github = data.lien_github.slice(0, 500);
+      }
+    }
     delete data.images;
     project = await Project.create(data);
   }
@@ -236,7 +244,15 @@ const update = asyncHandler(async (req, res) => {
   try {
     await project.update(data);
   } catch (err) {
-    console.error("Tentative mise à jour sans colonne 'images' :", err.message);
+    console.error("Erreur mise à jour projet (fallback sécurisé) :", err.message);
+    if (err.message && (err.message.includes("varying(500)") || err.message.includes("value too long"))) {
+      if (data.lien_demo && data.lien_demo.length > 500) {
+        data.lien_demo = data.lien_demo.slice(0, 500);
+      }
+      if (data.lien_github && data.lien_github.length > 500) {
+        data.lien_github = data.lien_github.slice(0, 500);
+      }
+    }
     delete data.images;
     await project.update(data);
   }
