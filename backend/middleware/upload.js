@@ -30,19 +30,28 @@ const fileFilter = (allowed) => (_req, file, cb) => {
 
 const uploadCV = multer({
   storage: storage(cvDir),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+    fieldSize: 25 * 1024 * 1024,
+  },
   fileFilter: fileFilter(["application/pdf"]),
 });
 
 const uploadProjectImage = multer({
   storage: storage(projectsDir),
-  limits: { fileSize: 15 * 1024 * 1024 },
+  limits: {
+    fileSize: 20 * 1024 * 1024,
+    fieldSize: 50 * 1024 * 1024, // Permet les champs de texte volumineux (Base64 des images existantes conservées)
+  },
   fileFilter: fileFilter(["image/jpeg", "image/png", "image/webp", "image/gif"]),
 });
 
 const uploadProfileImage = multer({
   storage: storage(profileDir),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: {
+    fileSize: 15 * 1024 * 1024,
+    fieldSize: 50 * 1024 * 1024,
+  },
   fileFilter: fileFilter(["image/jpeg", "image/png", "image/webp"]),
 });
 

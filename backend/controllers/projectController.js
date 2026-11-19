@@ -156,10 +156,11 @@ const parseProjectData = (body, req) => {
     }
   }
 
-  // 3. Fusion des images existantes et des nouvelles images
-  if (newUploadedImages.length > 0 || existingImages.length > 0) {
-    data.images = [...existingImages, ...newUploadedImages];
-    data.image = data.images[0];
+  // 3. Fusion des images existantes et des nouvelles images (ou prise en compte des suppressions)
+  if (body.existing_images !== undefined || newUploadedImages.length > 0) {
+    const combined = [...existingImages, ...newUploadedImages];
+    data.images = combined;
+    data.image = combined.length > 0 ? combined[0] : null;
   } else if (body.image) {
     data.image = body.image;
     data.images = [body.image];

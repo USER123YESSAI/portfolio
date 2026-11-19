@@ -15,6 +15,16 @@ const errorHandler = (err, _req, res, _next) => {
   }
 
   if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FIELD_VALUE") {
+      return res.status(400).json({
+        message: "Les données d'image envoyées dépassent la taille autorisée. Veuillez réduire la taille de vos fichiers.",
+      });
+    }
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        message: "Le fichier envoyé est trop volumineux.",
+      });
+    }
     return res.status(400).json({ message: err.message });
   }
 
