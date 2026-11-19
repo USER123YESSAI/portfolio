@@ -43,13 +43,26 @@ const getAll = asyncHandler(async (req, res) => {
 
   if (categorie) where.categorie = categorie;
 
-  let projects = await Project.findAll({
-    where,
-    order: [
-      ["mis_en_avant", "DESC"],
-      ["date_realisation", "DESC"],
-    ],
-  });
+  let projects;
+  try {
+    projects = await Project.findAll({
+      where,
+      order: [
+        ["mis_en_avant", "DESC"],
+        ["date_realisation", "DESC"],
+      ],
+    });
+  } catch (err) {
+    console.error("Erreur getAll (fallback sans colonne 'images') :", err.message);
+    projects = await Project.findAll({
+      where,
+      attributes: { exclude: ["images"] },
+      order: [
+        ["mis_en_avant", "DESC"],
+        ["date_realisation", "DESC"],
+      ],
+    });
+  }
 
   projects = projects.map(normalizeProject);
 
@@ -64,18 +77,36 @@ const getAll = asyncHandler(async (req, res) => {
 });
 
 const getAdminAll = asyncHandler(async (_req, res) => {
-  const projects = await Project.findAll({
-    order: [
-      ["mis_en_avant", "DESC"],
-      ["date_realisation", "DESC"],
-      ["id", "DESC"],
-    ],
-  });
+  let projects;
+  try {
+    projects = await Project.findAll({
+      order: [
+        ["mis_en_avant", "DESC"],
+        ["date_realisation", "DESC"],
+        ["id", "DESC"],
+      ],
+    });
+  } catch (err) {
+    console.error("Erreur getAdminAll (fallback sans colonne 'images') :", err.message);
+    projects = await Project.findAll({
+      attributes: { exclude: ["images"] },
+      order: [
+        ["mis_en_avant", "DESC"],
+        ["date_realisation", "DESC"],
+        ["id", "DESC"],
+      ],
+    });
+  }
   res.json(projects.map(normalizeProject));
 });
 
 const getById = asyncHandler(async (req, res) => {
-  const project = await Project.findByPk(req.params.id);
+  let project;
+  try {
+    project = await Project.findByPk(req.params.id);
+  } catch {
+    project = await Project.findByPk(req.params.id, { attributes: { exclude: ["images"] } });
+  }
   if (!project || project.archive) {
     return res.status(404).json({ message: "Projet introuvable." });
   }
@@ -83,7 +114,12 @@ const getById = asyncHandler(async (req, res) => {
 });
 
 const getAdminById = asyncHandler(async (req, res) => {
-  const project = await Project.findByPk(req.params.id);
+  let project;
+  try {
+    project = await Project.findByPk(req.params.id);
+  } catch {
+    project = await Project.findByPk(req.params.id, { attributes: { exclude: ["images"] } });
+  }
   if (!project) {
     return res.status(404).json({ message: "Projet introuvable." });
   }
@@ -180,7 +216,14 @@ const create = asyncHandler(async (req, res) => {
     data.user_id = firstAdmin ? firstAdmin.id : null;
   }
 
-  const project = await Project.create(data);
+  let project;
+  try {
+    project = await Project.create(data);
+  } catch (err) {
+    console.error("Tentative création sans colonne 'images' :", err.message);
+    delete data.images;
+    project = await Project.create(data);
+  }
   res.status(201).json(normalizeProject(project));
 });
 
@@ -189,7 +232,13 @@ const update = asyncHandler(async (req, res) => {
   if (!project) return res.status(404).json({ message: "Projet introuvable." });
 
   const data = parseProjectData(req.body, req);
-  await project.update(data);
+  try {
+    await project.update(data);
+  } catch (err) {
+    console.error("Tentative mise à jour sans colonne 'images' :", err.message);
+    delete data.images;
+    await project.update(data);
+  }
   res.json(normalizeProject(project));
 });
 

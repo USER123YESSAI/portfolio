@@ -61,10 +61,15 @@ export default function AdminProjectsPage() {
     try {
       const data = await adminGetProjects();
       setProjects(data);
-    } catch {
+    } catch (err: any) {
+      console.error("Erreur fetchProjects:", err);
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Erreur lors du chargement des projets.";
       setStatusMsg({
         type: "error",
-        text: "Erreur lors du chargement des projets.",
+        text: `Erreur: ${msg}`,
       });
     } finally {
       setLoading(false);

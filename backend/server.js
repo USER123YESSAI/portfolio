@@ -122,6 +122,23 @@ const start = async () => {
     await sequelize.sync();
     console.log("Modèles synchronisés.");
 
+    // Migration automatique sécurisée des colonnes manquantes (ex: 'images' dans la table projects)
+    try {
+      const qi = sequelize.getQueryInterface();
+      const tableDesc = await qi.describeTable("projects").catch(() => null);
+      if (tableDesc && !tableDesc.images) {
+        console.log("Migration : Ajout de la colonne 'images' dans la table projects...");
+        await qi.addColumn("projects", "images", {
+          type: sequelize.Sequelize.JSON,
+          allowNull: true,
+          defaultValue: [],
+        });
+        console.log("Colonne 'images' ajoutée avec succès !");
+      }
+    } catch (migErr) {
+      console.log("Info migration colonne images :", migErr.message);
+    }
+
     // Initialisation automatique si la base est neuve
     const { User } = require("./models");
     const userCount = await User.count();
