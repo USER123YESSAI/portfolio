@@ -116,11 +116,42 @@ app.use(errorHandler);
 const start = async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connexion MySQL établie.");
+    console.log("Connexion à la base de données établie.");
 
     // Préserver strictement les tables et données existantes
     await sequelize.sync();
-    console.log("Modèles synchronisés (tables et données existantes préservées).");
+    console.log("Modèles synchronisés.");
+
+    // Initialisation automatique si la base est neuve
+    const { User } = require("./models");
+    const userCount = await User.count();
+    if (userCount === 0) {
+      console.log("Nouvelle base détectée (0 utilisateur). Initialisation automatique...");
+      const { runSeed } = require("./seeds/seedRunner");
+      await runSeed();
+    } else if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+      const bcrypt = require("bcrypt");
+      const adminEmail = process.env.ADMIN_EMAIL.trim();
+      const adminPassword = process.env.ADMIN_PASSWORD.trim();
+      const existingAdmin = await User.findOne({ where: { email: adminEmail } });
+
+      if (!existingAdmin) {
+        console.log(`Création de l'administrateur configuré : ${adminEmail}`);
+        await User.create({
+          nom: "Yessaïn Nanadoumadji",
+          email: adminEmail,
+          mot_de_passe: await bcrypt.hash(adminPassword, 12),
+          role: "admin",
+        });
+      } else {
+        const match = await bcrypt.compare(adminPassword, existingAdmin.mot_de_passe);
+        if (!match) {
+          console.log(`Synchronisation du mot de passe pour l'administrateur : ${adminEmail}`);
+          existingAdmin.mot_de_passe = await bcrypt.hash(adminPassword, 12);
+          await existingAdmin.save();
+        }
+      }
+    }
 
     app.listen(PORT, () => {
       console.log(`Serveur démarré sur http://localhost:${PORT}`);
