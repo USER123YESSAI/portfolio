@@ -8,20 +8,20 @@ const Certification = require("./Certification");
 const Message = require("./Message");
 const Setting = require("./Setting");
 
-User.hasMany(Project, { foreignKey: "user_id", onDelete: "CASCADE" });
-Project.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Project, { foreignKey: { name: "user_id", allowNull: true }, onDelete: "CASCADE" });
+Project.belongsTo(User, { foreignKey: { name: "user_id", allowNull: true } });
 
-User.hasMany(Skill, { foreignKey: "user_id", onDelete: "CASCADE" });
-Skill.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Skill, { foreignKey: { name: "user_id", allowNull: true }, onDelete: "CASCADE" });
+Skill.belongsTo(User, { foreignKey: { name: "user_id", allowNull: true } });
 
-User.hasMany(Experience, { foreignKey: "user_id", onDelete: "CASCADE" });
-Experience.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Experience, { foreignKey: { name: "user_id", allowNull: true }, onDelete: "CASCADE" });
+Experience.belongsTo(User, { foreignKey: { name: "user_id", allowNull: true } });
 
-User.hasMany(Education, { foreignKey: "user_id", onDelete: "CASCADE" });
-Education.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Education, { foreignKey: { name: "user_id", allowNull: true }, onDelete: "CASCADE" });
+Education.belongsTo(User, { foreignKey: { name: "user_id", allowNull: true } });
 
-User.hasMany(Certification, { foreignKey: "user_id", onDelete: "CASCADE" });
-Certification.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Certification, { foreignKey: { name: "user_id", allowNull: true }, onDelete: "CASCADE" });
+Certification.belongsTo(User, { foreignKey: { name: "user_id", allowNull: true } });
 
 module.exports = {
   sequelize,

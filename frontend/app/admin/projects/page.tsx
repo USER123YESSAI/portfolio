@@ -158,10 +158,16 @@ export default function AdminProjectsPage() {
       }
       setIsModalOpen(false);
       fetchProjects();
-    } catch {
+    } catch (err: any) {
+      console.error("Erreur projet :", err);
+      const serverMsg =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        err.message ||
+        "Erreur lors de l'enregistrement du projet.";
       setStatusMsg({
         type: "error",
-        text: "Erreur lors de l'enregistrement du projet.",
+        text: `Erreur: ${serverMsg}`,
       });
     } finally {
       setSubmitting(false);

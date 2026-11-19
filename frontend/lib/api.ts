@@ -4,8 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: API_URL,
-  headers: { "Content-Type": "application/json" },
-  timeout: 25000,
+  timeout: 30000,
 });
 
 api.interceptors.request.use((config) => {
@@ -15,10 +14,17 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
-  // Si c'est du FormData, supprimer le Content-Type forcé pour que le navigateur
+  // Si c'est du FormData, supprimer le Content-Type pour que le navigateur
   // génère le bon 'multipart/form-data; boundary=...'
   if (typeof FormData !== "undefined" && config.data instanceof FormData) {
-    delete config.headers["Content-Type"];
+    if (config.headers) {
+      delete config.headers["Content-Type"];
+      delete config.headers["content-type"];
+      if (typeof config.headers.delete === "function") {
+        config.headers.delete("Content-Type");
+        config.headers.delete("content-type");
+      }
+    }
   }
   return config;
 });

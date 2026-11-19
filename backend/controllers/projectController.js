@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Project } = require("../models");
+const { Project, User } = require("../models");
 const asyncHandler = require("../utils/asyncHandler");
 
 const normalizeProject = (project) => {
@@ -145,12 +145,41 @@ const parseProjectData = (body, req) => {
   if (data.archive !== undefined) {
     data.archive = data.archive === "true" || data.archive === true;
   }
+
+  // Nettoyage spécifique pour la compatibilité PostgreSQL
+  if (!data.date_realisation || String(data.date_realisation).trim() === "") {
+    data.date_realisation = null;
+  }
+  if (!data.lien_demo || String(data.lien_demo).trim() === "") {
+    data.lien_demo = null;
+  }
+  if (!data.lien_github || String(data.lien_github).trim() === "") {
+    data.lien_github = null;
+  }
+  if (!data.categorie || String(data.categorie).trim() === "") {
+    data.categorie = "Full-Stack";
+  }
+
   return data;
 };
 
 const create = asyncHandler(async (req, res) => {
   const data = parseProjectData(req.body, req);
-  data.user_id = req.user.id;
+
+  // Résolution sécurisée de user_id pour éviter toute violation de clé étrangère
+  if (req.user && req.user.id) {
+    const userExists = await User.findByPk(req.user.id);
+    if (userExists) {
+      data.user_id = userExists.id;
+    } else {
+      const firstAdmin = await User.findOne({ order: [["id", "ASC"]] });
+      data.user_id = firstAdmin ? firstAdmin.id : null;
+    }
+  } else {
+    const firstAdmin = await User.findOne({ order: [["id", "ASC"]] });
+    data.user_id = firstAdmin ? firstAdmin.id : null;
+  }
+
   const project = await Project.create(data);
   res.status(201).json(normalizeProject(project));
 });
