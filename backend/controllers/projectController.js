@@ -233,17 +233,27 @@ const create = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error("Erreur création projet (fallback sécurisé) :", err.message);
     if (err.message && (err.message.includes("varying(500)") || err.message.includes("value too long"))) {
-      if (data.lien_demo && data.lien_demo.length > 500) {
-        data.lien_demo = data.lien_demo.slice(0, 500);
-      }
-      if (data.lien_github && data.lien_github.length > 500) {
-        data.lien_github = data.lien_github.slice(0, 500);
+      try {
+        const seq = Project.sequelize;
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "image" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "images" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "lien_demo" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "lien_github" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY image LONGTEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY images LONGTEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY lien_demo TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY lien_github TEXT;`).catch(() => null);
+      } catch (alterErr) {
+        console.error("Erreur ALTER TABLE dans create :", alterErr.message);
       }
     }
     try {
       project = await Project.create(data);
     } catch {
       delete data.images;
+      if (data.image && data.image.length > 500) data.image = null;
+      if (data.lien_demo && data.lien_demo.length > 500) data.lien_demo = null;
+      if (data.lien_github && data.lien_github.length > 500) data.lien_github = null;
       project = await Project.create(data);
     }
   }
@@ -260,17 +270,27 @@ const update = asyncHandler(async (req, res) => {
   } catch (err) {
     console.error("Erreur mise à jour projet (fallback sécurisé) :", err.message);
     if (err.message && (err.message.includes("varying(500)") || err.message.includes("value too long"))) {
-      if (data.lien_demo && data.lien_demo.length > 500) {
-        data.lien_demo = data.lien_demo.slice(0, 500);
-      }
-      if (data.lien_github && data.lien_github.length > 500) {
-        data.lien_github = data.lien_github.slice(0, 500);
+      try {
+        const seq = Project.sequelize;
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "image" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "images" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "lien_demo" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE "projects" ALTER COLUMN "lien_github" TYPE TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY image LONGTEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY images LONGTEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY lien_demo TEXT;`).catch(() => null);
+        await seq.query(`ALTER TABLE projects MODIFY lien_github TEXT;`).catch(() => null);
+      } catch (alterErr) {
+        console.error("Erreur ALTER TABLE dans update :", alterErr.message);
       }
     }
     try {
       await project.update(data);
     } catch {
       delete data.images;
+      if (data.image && data.image.length > 500) data.image = null;
+      if (data.lien_demo && data.lien_demo.length > 500) data.lien_demo = null;
+      if (data.lien_github && data.lien_github.length > 500) data.lien_github = null;
       await project.update(data);
     }
   }

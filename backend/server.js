@@ -124,21 +124,45 @@ const start = async () => {
 
     // Migration automatique sécurisée des colonnes manquantes ou de types limités
     try {
-      // 1. Colonne 'images' pour la galerie multi-images (TEXT pour compatibilité universelle sans contrainte de schéma)
-      await sequelize.query(`ALTER TABLE "projects" ADD COLUMN IF NOT EXISTS "images" TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE "projects" ALTER COLUMN "images" TYPE TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE projects ADD COLUMN IF NOT EXISTS images TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE projects MODIFY images TEXT;`).catch(() => null);
+      const alterQueries = [
+        // PostgreSQL (projets : image, images, lien_demo, lien_github vers TEXT pour accepter les Base64 et URLs longues)
+        `ALTER TABLE "projects" ALTER COLUMN "image" TYPE TEXT;`,
+        `ALTER TABLE "Projects" ALTER COLUMN "image" TYPE TEXT;`,
+        `ALTER TABLE projects ALTER COLUMN image TYPE TEXT;`,
 
-      // 2. Élargissement des colonnes de liens vers TEXT pour autoriser les URLs de toute taille (anti-crash VARCHAR(500))
-      await sequelize.query(`ALTER TABLE "projects" ALTER COLUMN "lien_demo" TYPE TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE "projects" ALTER COLUMN "lien_github" TYPE TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE "certifications" ALTER COLUMN "lien_justificatif" TYPE TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE projects MODIFY lien_demo TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE projects MODIFY lien_github TEXT;`).catch(() => null);
-      await sequelize.query(`ALTER TABLE certifications MODIFY lien_justificatif TEXT;`).catch(() => null);
+        `ALTER TABLE "projects" ADD COLUMN IF NOT EXISTS "images" TEXT;`,
+        `ALTER TABLE "Projects" ADD COLUMN IF NOT EXISTS "images" TEXT;`,
+        `ALTER TABLE "projects" ALTER COLUMN "images" TYPE TEXT;`,
+        `ALTER TABLE "Projects" ALTER COLUMN "images" TYPE TEXT;`,
+        `ALTER TABLE projects ALTER COLUMN images TYPE TEXT;`,
 
-      console.log("Migration des colonnes PostgreSQL/MySQL vérifiée avec succès.");
+        `ALTER TABLE "projects" ALTER COLUMN "lien_demo" TYPE TEXT;`,
+        `ALTER TABLE "Projects" ALTER COLUMN "lien_demo" TYPE TEXT;`,
+        `ALTER TABLE projects ALTER COLUMN lien_demo TYPE TEXT;`,
+
+        `ALTER TABLE "projects" ALTER COLUMN "lien_github" TYPE TEXT;`,
+        `ALTER TABLE "Projects" ALTER COLUMN "lien_github" TYPE TEXT;`,
+        `ALTER TABLE projects ALTER COLUMN lien_github TYPE TEXT;`,
+
+        // Certifications
+        `ALTER TABLE "certifications" ALTER COLUMN "lien_justificatif" TYPE TEXT;`,
+        `ALTER TABLE "Certifications" ALTER COLUMN "lien_justificatif" TYPE TEXT;`,
+        `ALTER TABLE certifications ALTER COLUMN lien_justificatif TYPE TEXT;`,
+
+        // MySQL / TiDB
+        `ALTER TABLE projects MODIFY image LONGTEXT;`,
+        `ALTER TABLE projects ADD COLUMN IF NOT EXISTS images LONGTEXT;`,
+        `ALTER TABLE projects MODIFY images LONGTEXT;`,
+        `ALTER TABLE projects MODIFY lien_demo TEXT;`,
+        `ALTER TABLE projects MODIFY lien_github TEXT;`,
+        `ALTER TABLE certifications MODIFY lien_justificatif TEXT;`,
+      ];
+
+      for (const q of alterQueries) {
+        await sequelize.query(q).catch(() => null);
+      }
+
+      console.log("Migration des colonnes (image, images, liens vers TEXT) vérifiée avec succès.");
     } catch (migErr) {
       console.log("Info migration colonnes :", migErr.message);
     }
