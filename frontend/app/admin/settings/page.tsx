@@ -24,6 +24,49 @@ import {
   getAssetUrl,
 } from "@/lib/api";
 
+const compressPhoto = async (file: File): Promise<File> => {
+  if (!file.type.startsWith("image/") || file.type === "image/gif") return file;
+  if (file.size < 400 * 1024) return file;
+  return new Promise((resolve) => {
+    const img = document.createElement("img");
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.src = e.target?.result as string;
+    };
+    img.onload = () => {
+      const maxWidth = 1200;
+      let { width, height } = img;
+      if (width > maxWidth) {
+        height = Math.round((height * maxWidth) / width);
+        width = maxWidth;
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return resolve(file);
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (blob) => {
+          if (blob && blob.size < file.size) {
+            resolve(
+              new File([blob], file.name, {
+                type: file.type || "image/jpeg",
+              })
+            );
+          } else {
+            resolve(file);
+          }
+        },
+        file.type || "image/jpeg",
+        0.85
+      );
+    };
+    img.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
+};
+
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState<{
     site_title: string;
@@ -130,7 +173,8 @@ export default function AdminSettingsPage() {
     setPhotoUploading(true);
     setStatusMsg(null);
     try {
-      const res = await uploadProfileImage(file);
+      const fileToUpload = await compressPhoto(file);
+      const res = await uploadProfileImage(fileToUpload);
       setSettings((prev) => ({ ...prev, profile_photo: res.profile_photo }));
       setStatusMsg({
         type: "success",
@@ -152,7 +196,8 @@ export default function AdminSettingsPage() {
     setAboutPhotoUploading(true);
     setStatusMsg(null);
     try {
-      const res = await uploadAboutPhoto(file);
+      const fileToUpload = await compressPhoto(file);
+      const res = await uploadAboutPhoto(fileToUpload);
       setSettings((prev) => ({ ...prev, about_photo: res.about_photo }));
       setStatusMsg({
         type: "success",

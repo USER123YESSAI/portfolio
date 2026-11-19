@@ -156,9 +156,7 @@ export const adminUploadCV = (file: File) => {
   clearApiCache();
   const formData = new FormData();
   formData.append("cv", file);
-  return api.post("/admin/settings/cv", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => {
+  return api.post("/admin/settings/cv", formData).then((r) => {
     clearApiCache();
     return r.data;
   });
@@ -169,9 +167,7 @@ export const adminUploadProfilePhoto = (file: File) => {
   clearApiCache();
   const formData = new FormData();
   formData.append("photo", file);
-  return api.post("/admin/settings/profile-photo", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => {
+  return api.post("/admin/settings/profile-photo", formData).then((r) => {
     clearApiCache();
     return r.data;
   });
@@ -182,9 +178,7 @@ export const adminUploadAboutPhoto = (file: File) => {
   clearApiCache();
   const formData = new FormData();
   formData.append("photo", file);
-  return api.post("/admin/settings/about-photo", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => {
+  return api.post("/admin/settings/about-photo", formData).then((r) => {
     clearApiCache();
     return r.data;
   });

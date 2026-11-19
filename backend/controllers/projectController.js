@@ -131,7 +131,7 @@ const parseProjectData = (body, req) => {
 
   // 1. Récupération des images existantes conservées
   let existingImages = [];
-  if (body.existing_images) {
+  if (body.existing_images !== undefined) {
     try {
       existingImages = typeof body.existing_images === "string"
         ? JSON.parse(body.existing_images)
@@ -140,12 +140,20 @@ const parseProjectData = (body, req) => {
       existingImages = Array.isArray(body.existing_images) ? body.existing_images : [body.existing_images];
     }
   }
+  if (!Array.isArray(existingImages)) {
+    existingImages = existingImages ? [existingImages] : [];
+  }
 
-  // 2. Conversion de tous les fichiers uploadés en Base64 Data URL permanents
-  const files = req.files || (req.file ? [req.file] : []);
+  // 2. Conversion des fichiers uploadés en Base64 Data URL (avec déduplication stricte)
+  const rawFiles = req.files || (req.file ? [req.file] : []);
+  const seenFiles = new Set();
   const newUploadedImages = [];
 
-  for (const f of files) {
+  for (const f of rawFiles) {
+    const fileKey = `${f.originalname}_${f.size}`;
+    if (seenFiles.has(fileKey)) continue;
+    seenFiles.add(fileKey);
+
     try {
       const fileBuffer = fs.readFileSync(f.path);
       const dataUrl = `data:${f.mimetype};base64,${fileBuffer.toString("base64")}`;
@@ -156,7 +164,7 @@ const parseProjectData = (body, req) => {
     }
   }
 
-  // 3. Fusion des images existantes et des nouvelles images (ou prise en compte des suppressions)
+  // 3. Fusion ordonnée des images existantes et des nouvelles
   if (body.existing_images !== undefined || newUploadedImages.length > 0) {
     const combined = [...existingImages, ...newUploadedImages];
     data.images = combined;
@@ -165,6 +173,8 @@ const parseProjectData = (body, req) => {
     data.image = body.image;
     data.images = [body.image];
   }
+
+  delete data.existing_images;
 
   if (typeof data.technologies === "string") {
     try {
@@ -230,8 +240,12 @@ const create = asyncHandler(async (req, res) => {
         data.lien_github = data.lien_github.slice(0, 500);
       }
     }
-    delete data.images;
-    project = await Project.create(data);
+    try {
+      project = await Project.create(data);
+    } catch {
+      delete data.images;
+      project = await Project.create(data);
+    }
   }
   res.status(201).json(normalizeProject(project));
 });
@@ -253,8 +267,12 @@ const update = asyncHandler(async (req, res) => {
         data.lien_github = data.lien_github.slice(0, 500);
       }
     }
-    delete data.images;
-    await project.update(data);
+    try {
+      await project.update(data);
+    } catch {
+      delete data.images;
+      await project.update(data);
+    }
   }
   res.json(normalizeProject(project));
 });

@@ -31,9 +31,28 @@ const Project = sequelize.define(
       allowNull: true,
     },
     images: {
-      type: DataTypes.JSON,
+      type: DataTypes.TEXT,
       allowNull: true,
-      defaultValue: [],
+      defaultValue: "[]",
+      get() {
+        const raw = this.getDataValue("images");
+        if (!raw) return [];
+        if (Array.isArray(raw)) return raw;
+        try {
+          return typeof raw === "string" ? JSON.parse(raw) : raw;
+        } catch {
+          return [raw];
+        }
+      },
+      set(val) {
+        if (Array.isArray(val)) {
+          this.setDataValue("images", JSON.stringify(val));
+        } else if (typeof val === "string") {
+          this.setDataValue("images", val);
+        } else {
+          this.setDataValue("images", "[]");
+        }
+      },
     },
     lien_demo: {
       type: DataTypes.TEXT,
