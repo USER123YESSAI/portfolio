@@ -15,6 +15,25 @@ const normalizeProject = (project) => {
   if (!Array.isArray(p.technologies)) {
     p.technologies = [];
   }
+
+  // Normalisation de la galerie d'images
+  if (typeof p.images === "string") {
+    try {
+      p.images = JSON.parse(p.images);
+    } catch {
+      p.images = [p.images].filter(Boolean);
+    }
+  }
+  if (!Array.isArray(p.images)) {
+    p.images = [];
+  }
+  if (p.images.length === 0 && p.image) {
+    p.images = [p.image];
+  }
+  if (!p.image && p.images.length > 0) {
+    p.image = p.images[0];
+  }
+
   return p;
 };
 
@@ -71,16 +90,45 @@ const getAdminById = asyncHandler(async (req, res) => {
   res.json(normalizeProject(project));
 });
 
-const parseProjectData = (body, file) => {
+const parseProjectData = (body, req) => {
   const data = { ...body };
-  if (file) {
+
+  // 1. Récupération des images existantes conservées
+  let existingImages = [];
+  if (body.existing_images) {
     try {
-      const fileBuffer = fs.readFileSync(file.path);
-      data.image = `data:${file.mimetype};base64,${fileBuffer.toString("base64")}`;
+      existingImages = typeof body.existing_images === "string"
+        ? JSON.parse(body.existing_images)
+        : body.existing_images;
     } catch {
-      data.image = `/uploads/projects/${file.filename}`;
+      existingImages = Array.isArray(body.existing_images) ? body.existing_images : [body.existing_images];
     }
   }
+
+  // 2. Conversion de tous les fichiers uploadés en Base64 Data URL permanents
+  const files = req.files || (req.file ? [req.file] : []);
+  const newUploadedImages = [];
+
+  for (const f of files) {
+    try {
+      const fileBuffer = fs.readFileSync(f.path);
+      const dataUrl = `data:${f.mimetype};base64,${fileBuffer.toString("base64")}`;
+      newUploadedImages.push(dataUrl);
+    } catch (err) {
+      console.error("Erreur de conversion Base64 pour le fichier :", f.filename, err);
+      newUploadedImages.push(`/uploads/projects/${f.filename}`);
+    }
+  }
+
+  // 3. Fusion des images existantes et des nouvelles images
+  if (newUploadedImages.length > 0 || existingImages.length > 0) {
+    data.images = [...existingImages, ...newUploadedImages];
+    data.image = data.images[0];
+  } else if (body.image) {
+    data.image = body.image;
+    data.images = [body.image];
+  }
+
   if (typeof data.technologies === "string") {
     try {
       data.technologies = JSON.parse(data.technologies);
@@ -101,7 +149,7 @@ const parseProjectData = (body, file) => {
 };
 
 const create = asyncHandler(async (req, res) => {
-  const data = parseProjectData(req.body, req.file);
+  const data = parseProjectData(req.body, req);
   data.user_id = req.user.id;
   const project = await Project.create(data);
   res.status(201).json(normalizeProject(project));
@@ -111,7 +159,7 @@ const update = asyncHandler(async (req, res) => {
   const project = await Project.findByPk(req.params.id);
   if (!project) return res.status(404).json({ message: "Projet introuvable." });
 
-  const data = parseProjectData(req.body, req.file);
+  const data = parseProjectData(req.body, req);
   await project.update(data);
   res.json(normalizeProject(project));
 });

@@ -30,6 +30,11 @@ const Project = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    images: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: [],
+    },
     lien_demo: {
       type: DataTypes.STRING(500),
       allowNull: true,

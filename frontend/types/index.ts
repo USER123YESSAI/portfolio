@@ -12,6 +12,7 @@ export interface Project {
   technologies: string[];
   categorie?: string;
   image?: string;
+  images?: string[];
   lien_demo?: string;
   lien_github?: string;
   date_realisation?: string;

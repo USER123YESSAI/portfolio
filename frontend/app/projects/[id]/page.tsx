@@ -1,9 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import PublicLayout from "@/components/layout/PublicLayout";
-import { getProject, getSettings, getAssetUrl } from "@/lib/api";
+import ProjectGallery from "@/components/projects/ProjectGallery";
+import { getProject, getSettings } from "@/lib/api";
 import { formatFullDate, parseTechnologies } from "@/lib/utils";
 import type { Metadata } from "next";
 
@@ -37,7 +37,13 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   if (!project) notFound();
 
-  const imageUrl = getAssetUrl(project.image);
+  const galleryImages: string[] =
+    project.images && Array.isArray(project.images) && project.images.length > 0
+      ? project.images
+      : project.image
+      ? [project.image]
+      : [];
+
   const siteUrl =
     project.lien_demo && project.lien_demo !== "#"
       ? project.lien_demo
@@ -58,22 +64,8 @@ export default async function ProjectDetailPage({ params }: Props) {
             <ArrowLeft size={16} /> Retour aux projets
           </Link>
 
-          {/* Project Image Banner */}
-          {imageUrl && (
-            <div
-              className="relative rounded-2xl overflow-hidden mb-8 h-72 sm:h-96 shadow-lg"
-              style={{ border: "1px solid var(--border)", backgroundColor: "var(--card)" }}
-            >
-              <Image
-                src={imageUrl}
-                alt={project.titre}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 100vw, 896px"
-                priority
-              />
-            </div>
-          )}
+          {/* Project Image Gallery (Support multi-images avec carrousel et miniatures) */}
+          <ProjectGallery images={galleryImages} titre={project.titre} />
 
           {/* Title & Category */}
           <div className="flex flex-wrap items-center gap-3 mb-4">

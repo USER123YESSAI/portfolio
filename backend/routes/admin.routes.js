@@ -19,8 +19,8 @@ router.get("/dashboard", dashboardController.getStats);
 
 router.get("/projects", projectController.getAdminAll);
 router.get("/projects/:id", projectController.getAdminById);
-router.post("/projects", uploadProjectImage.single("image"), projectController.create);
-router.put("/projects/:id", uploadProjectImage.single("image"), projectController.update);
+router.post("/projects", uploadProjectImage.any(), projectController.create);
+router.put("/projects/:id", uploadProjectImage.any(), projectController.update);
 router.patch("/projects/:id/archive", projectController.archive);
 router.delete("/projects/:id", projectController.remove);
 

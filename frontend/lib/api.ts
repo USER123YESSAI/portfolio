@@ -15,6 +15,11 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
+  // Si c'est du FormData, supprimer le Content-Type forcé pour que le navigateur
+  // génère le bon 'multipart/form-data; boundary=...'
+  if (typeof FormData !== "undefined" && config.data instanceof FormData) {
+    delete config.headers["Content-Type"];
+  }
   return config;
 });
 
@@ -80,13 +85,15 @@ export const getDashboardStats = () =>
 
 export const adminGetProjects = () => api.get("/admin/projects").then((r) => r.data);
 export const adminCreateProject = (data: FormData) =>
-  api.post("/admin/projects", data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => r.data);
+  api.post("/admin/projects", data).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
 export const adminUpdateProject = (id: number, data: FormData) =>
-  api.put(`/admin/projects/${id}`, data, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }).then((r) => r.data);
+  api.put(`/admin/projects/${id}`, data).then((r) => {
+    clearApiCache();
+    return r.data;
+  });
 export const adminDeleteProject = (id: number) =>
   api.delete(`/admin/projects/${id}`).then((r) => r.data);
 export const adminArchiveProject = (id: number) =>

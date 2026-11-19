@@ -36,13 +36,13 @@ const uploadCV = multer({
 
 const uploadProjectImage = multer({
   storage: storage(projectsDir),
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 15 * 1024 * 1024 },
   fileFilter: fileFilter(["image/jpeg", "image/png", "image/webp", "image/gif"]),
 });
 
 const uploadProfileImage = multer({
   storage: storage(profileDir),
-  limits: { fileSize: 3 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: fileFilter(["image/jpeg", "image/png", "image/webp"]),
 });
 

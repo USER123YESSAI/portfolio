@@ -48,7 +48,8 @@ export default function AdminProjectsPage() {
     mis_en_avant: false,
     archive: false,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
   const [statusMsg, setStatusMsg] = useState<{
     type: "success" | "error";
     text: string;
@@ -87,7 +88,8 @@ export default function AdminProjectsPage() {
       mis_en_avant: false,
       archive: false,
     });
-    setImageFile(null);
+    setSelectedFiles([]);
+    setExistingImages([]);
     setIsModalOpen(true);
   };
 
@@ -108,7 +110,14 @@ export default function AdminProjectsPage() {
       mis_en_avant: project.mis_en_avant || false,
       archive: project.archive || false,
     });
-    setImageFile(null);
+    setSelectedFiles([]);
+    const currentImgs =
+      project.images && project.images.length > 0
+        ? project.images
+        : project.image
+        ? [project.image]
+        : [];
+    setExistingImages(currentImgs);
     setIsModalOpen(true);
   };
 
@@ -122,8 +131,16 @@ export default function AdminProjectsPage() {
       Object.entries(form).forEach(([key, val]) => {
         formData.append(key, String(val));
       });
-      if (imageFile) {
-        formData.append("image", imageFile);
+
+      // Images conservées
+      formData.append("existing_images", JSON.stringify(existingImages));
+
+      // Nouvelles images ajoutées
+      selectedFiles.forEach((file) => {
+        formData.append("images", file);
+      });
+      if (selectedFiles.length > 0) {
+        formData.append("image", selectedFiles[0]);
       }
 
       if (editingId) {
@@ -537,17 +554,100 @@ export default function AdminProjectsPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a] mb-1.5">
-                  Image / capture d&apos;écran
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0f172a]">
+                    Images du projet (une ou plusieurs)
+                  </label>
+                  <span className="text-[11px] text-slate-500 font-medium">
+                    {existingImages.length + selectedFiles.length} image(s) au total
+                  </span>
+                </div>
                 <input
                   type="file"
+                  multiple
                   accept="image/*"
-                  onChange={(e) =>
-                    setImageFile(e.target.files?.[0] || null)
-                  }
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    setSelectedFiles((prev) => [...prev, ...files]);
+                  }}
                   className="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#e0f2fe] file:text-[#0ea5e9] hover:file:bg-[#e2e8f0] cursor-pointer"
                 />
+                <p className="text-[11px] text-slate-400 mt-1">
+                  💡 Astuce : Vous pouvez sélectionner plusieurs images d&apos;un coup. La première image servira de couverture principale.
+                </p>
+
+                {/* Galerie des miniatures */}
+                {(existingImages.length > 0 || selectedFiles.length > 0) && (
+                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mt-3 pt-3 border-t border-[#e2e8f0]">
+                    {/* Images existantes */}
+                    {existingImages.map((img, idx) => (
+                      <div
+                        key={`existing-${idx}`}
+                        className="relative group rounded-lg overflow-hidden border border-[#e2e8f0] aspect-video bg-slate-50"
+                      >
+                        <Image
+                          src={getAssetUrl(img) || img}
+                          alt={`Aperçu ${idx + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                        {idx === 0 && (
+                          <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
+                            Principale
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setExistingImages((prev) =>
+                              prev.filter((_, i) => i !== idx)
+                            )
+                          }
+                          className="absolute top-1 right-1 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-80 group-hover:opacity-100 transition-opacity z-10 cursor-pointer"
+                          title="Supprimer cette image"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+
+                    {/* Nouvelles images sélectionnées */}
+                    {selectedFiles.map((file, idx) => {
+                      const objectUrl = URL.createObjectURL(file);
+                      const isMain = existingImages.length === 0 && idx === 0;
+                      return (
+                        <div
+                          key={`new-${idx}`}
+                          className="relative group rounded-lg overflow-hidden border-2 border-dashed border-[#0ea5e9] aspect-video bg-sky-50"
+                        >
+                          <Image
+                            src={objectUrl}
+                            alt={`Nouvelle ${idx + 1}`}
+                            fill
+                            className="object-cover"
+                          />
+                          {isMain && (
+                            <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
+                              Principale
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedFiles((prev) =>
+                                prev.filter((_, i) => i !== idx)
+                              )
+                            }
+                            className="absolute top-1 right-1 p-1 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-80 group-hover:opacity-100 transition-opacity z-10 cursor-pointer"
+                            title="Retirer cette image"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-6 pt-2">
