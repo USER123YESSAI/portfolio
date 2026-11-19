@@ -26,6 +26,7 @@ import {
   adminDeleteProject,
   adminArchiveProject,
   getAssetUrl,
+  clearApiCache,
 } from "@/lib/api";
 import { parseTechnologies } from "@/lib/utils";
 import type { Project } from "@/types";
@@ -263,16 +264,23 @@ export default function AdminProjectsPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Êtes-vous sûr de vouloir supprimer ce projet ?"))
+    if (!window.confirm("Êtes-vous sûr de vouloir supprimer définitivement ce projet ?"))
       return;
     try {
       await adminDeleteProject(id);
-      setStatusMsg({ type: "success", text: "Projet supprimé." });
+      setStatusMsg({ type: "success", text: "Projet supprimé avec succès." });
       setProjects((prev) => prev.filter((p) => p.id !== id));
-    } catch {
+      clearApiCache();
+      fetchProjects(false);
+    } catch (err: any) {
+      console.error("Erreur suppression:", err);
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Erreur lors de la suppression du projet.";
       setStatusMsg({
         type: "error",
-        text: "Erreur lors de la suppression.",
+        text: `Erreur: ${msg}`,
       });
     }
   };
@@ -426,6 +434,10 @@ export default function AdminProjectsPage() {
                         fill
                         className="object-cover object-top"
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (target) target.src = "/images/projects/1788370893095-283250163.jpeg";
+                        }}
                       />
                     ) : (
                       <div className="w-full h-full bg-[#0ea5e9] flex items-center justify-center text-white text-2xl font-bold font-serif-custom">
@@ -680,70 +692,71 @@ export default function AdminProjectsPage() {
                     {existingImages.map((img, idx) => (
                       <div
                         key={`existing-${idx}`}
-                        className="relative group rounded-lg overflow-hidden border border-[#e2e8f0] aspect-video bg-slate-50 flex flex-col justify-between"
+                        className="relative rounded-lg overflow-hidden border border-[#e2e8f0] aspect-video bg-slate-50 flex flex-col justify-between shadow-xs group"
                       >
                         <Image
                           src={getAssetUrl(img) || img}
                           alt={`Aperçu ${idx + 1}`}
                           fill
                           className="object-cover object-top"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            if (target) target.src = "/images/projects/1788370893095-283250163.jpeg";
+                          }}
                         />
-                        {idx === 0 && (
-                          <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
-                            Principale
-                          </span>
-                        )}
 
-                        {/* Barre d'actions au survol */}
-                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5 z-20">
-                          <div className="flex items-center justify-between">
-                            {idx > 0 ? (
-                              <button
-                                type="button"
-                                onClick={() => handleMakeMainExisting(idx)}
-                                className="px-1.5 py-0.5 bg-[#0ea5e9] hover:bg-[#0284c7] text-white text-[10px] font-semibold rounded shadow-xs cursor-pointer flex items-center gap-1"
-                                title="Définir comme photo principale"
-                              >
-                                <Star size={10} className="fill-white" />
-                                Principale
-                              </button>
-                            ) : (
-                              <span />
-                            )}
+                        {/* Bouton de suppression TOUJOURS VISIBLE en haut à droite */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setExistingImages((prev) =>
+                              prev.filter((_, i) => i !== idx)
+                            );
+                          }}
+                          className="absolute top-1.5 right-1.5 z-30 p-1.5 bg-red-600 hover:bg-red-700 active:scale-95 text-white rounded-full shadow-md cursor-pointer transition-all"
+                          title="Supprimer cette image"
+                        >
+                          <X size={12} />
+                        </button>
+
+                        {/* Barre d'actions en bas */}
+                        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-1.5 pt-4 flex items-center justify-between z-20">
+                          {idx === 0 ? (
+                            <span className="text-[10px] font-bold text-sky-300 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-400/40">
+                              ★ Principale
+                            </span>
+                          ) : (
                             <button
                               type="button"
-                              onClick={() =>
-                                setExistingImages((prev) =>
-                                  prev.filter((_, i) => i !== idx)
-                                )
-                              }
-                              className="p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-all cursor-pointer shadow-xs ml-auto"
-                              title="Supprimer cette image"
+                              onClick={() => handleMakeMainExisting(idx)}
+                              className="px-2 py-0.5 bg-[#0ea5e9] hover:bg-[#0284c7] active:scale-95 text-white text-[10px] font-semibold rounded shadow-xs cursor-pointer flex items-center gap-1 transition-all"
+                              title="Définir comme photo de couverture"
                             >
-                              <X size={12} />
+                              <Star size={10} className="fill-white" />
+                              Principale
                             </button>
-                          </div>
+                          )}
 
-                          {/* Boutons d'ordonnancement */}
-                          <div className="flex items-center justify-center gap-1.5 pt-1">
+                          <div className="flex items-center gap-1">
                             {idx > 0 && (
                               <button
                                 type="button"
                                 onClick={() => handleMoveExisting(idx, "left")}
-                                className="p-1 bg-black/60 hover:bg-black/90 text-white rounded cursor-pointer transition-all"
+                                className="p-1 bg-white/20 hover:bg-white/40 active:scale-90 text-white rounded cursor-pointer transition-all"
                                 title="Déplacer vers la gauche"
                               >
-                                <ArrowLeft size={12} />
+                                <ArrowLeft size={11} />
                               </button>
                             )}
                             {idx < existingImages.length - 1 && (
                               <button
                                 type="button"
                                 onClick={() => handleMoveExisting(idx, "right")}
-                                className="p-1 bg-black/60 hover:bg-black/90 text-white rounded cursor-pointer transition-all"
+                                className="p-1 bg-white/20 hover:bg-white/40 active:scale-90 text-white rounded cursor-pointer transition-all"
                                 title="Déplacer vers la droite"
                               >
-                                <ArrowRight size={12} />
+                                <ArrowRight size={11} />
                               </button>
                             )}
                           </div>
@@ -758,7 +771,7 @@ export default function AdminProjectsPage() {
                       return (
                         <div
                           key={`new-${idx}`}
-                          className="relative group rounded-lg overflow-hidden border-2 border-dashed border-[#0ea5e9] aspect-video bg-sky-50 flex flex-col justify-between"
+                          className="relative rounded-lg overflow-hidden border-2 border-dashed border-[#0ea5e9] aspect-video bg-sky-50 flex flex-col justify-between shadow-xs group"
                         >
                           <Image
                             src={objectUrl}
@@ -766,48 +779,53 @@ export default function AdminProjectsPage() {
                             fill
                             className="object-cover object-top"
                           />
-                          {isMain && (
-                            <span className="absolute top-1 left-1 bg-[#0ea5e9] text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs z-10">
-                              Principale
-                            </span>
-                          )}
 
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-1.5 z-20">
-                            <div className="flex items-center justify-end">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setSelectedFiles((prev) =>
-                                    prev.filter((_, i) => i !== idx)
-                                  )
-                                }
-                                className="p-1 bg-red-600 hover:bg-red-700 text-white rounded-full transition-all cursor-pointer shadow-xs"
-                                title="Retirer cette image"
-                              >
-                                <X size={12} />
-                              </button>
-                            </div>
+                          {/* Bouton de suppression TOUJOURS VISIBLE */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedFiles((prev) =>
+                                prev.filter((_, i) => i !== idx)
+                              );
+                            }}
+                            className="absolute top-1.5 right-1.5 z-30 p-1.5 bg-red-600 hover:bg-red-700 active:scale-95 text-white rounded-full shadow-md cursor-pointer transition-all"
+                            title="Retirer cette image"
+                          >
+                            <X size={12} />
+                          </button>
+
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-1.5 pt-4 flex items-center justify-between z-20">
+                            {isMain ? (
+                              <span className="text-[10px] font-bold text-sky-300 bg-sky-950/80 px-2 py-0.5 rounded border border-sky-400/40">
+                                ★ Principale
+                              </span>
+                            ) : (
+                              <span className="text-[10px] font-medium text-white/80">
+                                Nouvelle #{idx + 1}
+                              </span>
+                            )}
 
                             {selectedFiles.length > 1 && (
-                              <div className="flex items-center justify-center gap-1.5 pt-1">
+                              <div className="flex items-center gap-1">
                                 {idx > 0 && (
                                   <button
                                     type="button"
                                     onClick={() => handleMoveNew(idx, "left")}
-                                    className="p-1 bg-black/60 hover:bg-black/90 text-white rounded cursor-pointer transition-all"
+                                    className="p-1 bg-white/20 hover:bg-white/40 active:scale-90 text-white rounded cursor-pointer transition-all"
                                     title="Déplacer vers la gauche"
                                   >
-                                    <ArrowLeft size={12} />
+                                    <ArrowLeft size={11} />
                                   </button>
                                 )}
                                 {idx < selectedFiles.length - 1 && (
                                   <button
                                     type="button"
                                     onClick={() => handleMoveNew(idx, "right")}
-                                    className="p-1 bg-black/60 hover:bg-black/90 text-white rounded cursor-pointer transition-all"
+                                    className="p-1 bg-white/20 hover:bg-white/40 active:scale-90 text-white rounded cursor-pointer transition-all"
                                     title="Déplacer vers la droite"
                                   >
-                                    <ArrowRight size={12} />
+                                    <ArrowRight size={11} />
                                   </button>
                                 )}
                               </div>

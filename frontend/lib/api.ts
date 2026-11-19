@@ -202,6 +202,17 @@ export const getAssetUrl = (path?: string) => {
     return LOCAL_ASSET_MAP[path];
   }
 
+  // Redirection automatique des images projets initiales vers les assets locaux de Vercel (évite le 404 du disque Render éphémère)
+  if (path.startsWith("/uploads/projects/")) {
+    const filename = path.replace("/uploads/projects/", "");
+    return `/images/projects/${filename}`;
+  }
+
+  // Redirection automatique des photos de profil initiales vers l'image locale
+  if (path.startsWith("/uploads/profile/")) {
+    return "/images/profil.png";
+  }
+
   let host = "localhost";
   if (typeof window !== "undefined") {
     host = window.location.hostname || "localhost";
