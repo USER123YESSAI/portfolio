@@ -145,6 +145,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
+      data-theme="dark"
       suppressHydrationWarning
       className={`${inter.variable} ${playfair.variable} h-full`}
     >
@@ -152,7 +153,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="3c4rwlF8Ve_zPpNy-l4rkl0YhbUNrLP3z6SR_4DUmfc" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var theme=t==='dark'?'dark':'light';document.documentElement.setAttribute('data-theme',theme);}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var theme=t==='light'?'light':'dark';document.documentElement.setAttribute('data-theme',theme);}catch(e){}})()`,
           }}
         />
         <script
